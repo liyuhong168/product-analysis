@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产品深度分析</title>
+<style>
+:root {
+  --bg: #f5f5f7; --card: #ffffff; --text: #1d1d1f; --sub: #6e6e73;
+  --accent: #0071e3; --green: #34c759; --red: #ff3b30; --orange: #ff9500;
+  --border: #d2d2d7; --shadow: 0 2px 12px rgba(0,0,0,0.08); --radius: 16px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+h2 { font-size: 20px; font-weight: 600; margin: 24px 0 12px; }
+h3 { font-size: 16px; font-weight: 600; margin: 16px 0 8px; color: var(--sub); }
+.card { background: var(--card); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow); }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.metric { background: var(--card); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); text-align: center; }
+.metric .value { font-size: 22px; font-weight: 700; }
+.metric .label { font-size: 12px; color: var(--sub); text-transform: uppercase; letter-spacing: 0.5px; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+.badge-green { background: #e8f9ee; color: #1a7d36; }
+.badge-red { background: #ffe5e5; color: #d70015; }
+.badge-orange { background: #fff3e0; color: #c77c00; }
+.badge-blue { background: #e5f0ff; color: #0051a8; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { background: #f9f9fb; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border); cursor: pointer; user-select: none; white-space: nowrap; }
+th:hover { background: #ececf0; }
+td { padding: 10px 12px; border-bottom: 1px solid #f0f0f2; }
+tr:hover { background: #f9f9fb; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.back-link { display: inline-flex; align-items: center; gap: 4px; margin-bottom: 16px; font-size: 14px; color: var(--accent); }
+.stars { color: #ff9500; }
+.bullet-list { padding-left: 20px; }
+.bullet-list li { margin-bottom: 6px; font-size: 14px; color: #333; }
+.calendar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.cal-month { background: var(--card); border-radius: 10px; padding: 10px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.cal-month .month-name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.cal-month .demand { font-size: 12px; color: var(--sub); }
+.competitor-table td { font-size: 13px; }
+.restock-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-top: 12px; }
+.restock-box .title { font-weight: 600; color: var(--accent); margin-bottom: 8px; }
+.insight-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.filter-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+.filter-bar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
+.filter-bar input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; width: 200px; }
+.meta-info { color: var(--sub); font-size: 13px; margin-bottom: 20px; }
+@media (max-width: 768px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+  .calendar-grid { grid-template-columns: repeat(3, 1fr); }
+  table { font-size: 12px; }
+  th, td { padding: 6px 8px; }
+}
+
+.filter-bar .result-count { font-size: 13px; color: var(--sub); }
+</style>
+<script>
+function filterTable() {
+  const store = document.getElementById('storeFilter').value;
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const rows = document.querySelectorAll('#productTable tbody tr');
+  let count = 0;
+  rows.forEach(row => {
+    const rowStore = row.dataset.store;
+    const text = row.textContent.toLowerCase();
+    const matchStore = store === 'all' || rowStore === store;
+    const matchSearch = !search || text.includes(search);
+    row.style.display = (matchStore && matchSearch) ? '' : 'none';
+    if (matchStore && matchSearch) count++;
+  });
+  document.getElementById('resultCount').textContent = count + ' 个产品';
+}
+</script>
+</head><body>
+<div class="container">
+  <h1>📦 产品深度分析</h1>
+  <div class="meta-info">分析日期: 2026-06-11 18:27 · 数据来源: 领星ERP + Amazon UK</div>
+  <div class="filter-bar">
+    <select id="storeFilter" onchange="filterTable()"><option value="all">全部店铺</option><option value="322">322</option></select>
+    <input id="searchInput" type="text" placeholder="搜索ASIN/品名..." oninput="filterTable()">
+    <span id="resultCount" class="result-count">10 个产品</span>
+  </div>
+  <div class="card" style="overflow-x:auto">
+    <table id="productTable">
+      <thead><tr>
+        <th>#</th><th>店铺</th><th>ASIN</th><th>品名</th><th>售价</th><th>评分</th><th>BSR</th><th>月销量</th><th>毛利率</th><th>单件利润</th><th>FBA库存</th><th>分析日期</th>
+      </tr></thead>
+      <tbody><tr data-store="322">
+          <td>1</td>
+          <td>322</td>
+          <td><a href="B0DQY9NS7B.html">B0DQY9NS7B</a></td>
+          <td><a href="B0DQY9NS7B.html">Positive Duck Gifts,Exam Good Luck/Graduation Gifts wit</a></td>
+          <td>£7.63</td>
+          <td><span class="stars">★★★★½</span> 4.7 (139)</td>
+          <td>#3,808</td>
+          <td><strong>749</strong></td>
+          <td><span class="badge badge-orange">14.0%</span></td>
+          <td>£2.17</td>
+          <td>1,055</td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
+        </tr><tr data-store="322">
+          <td>2</td>
+          <td>322</td>
+          <td><a href="B0F4QW3Q5Q.html">B0F4QW3Q5Q</a></td>
+          <td><a href="B0F4QW3Q5Q.html">1 Pcs 20 Meter 200 Clips Vertical Blind Bottom Chain,Ve</a></td>
+          <td>£6.33</td>
+          <td><span class="stars">★★★★☆</span> 4.0 (147)</td>
+          <td>#8,220</td>
+          <td><strong>555</strong></td>
+          <td><span class="badge badge-green">25.2%</span></td>
+          <td>£1.88</td>
+          <td>326</td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
+        </tr><tr data-store="322">
+          <td>3</td>
+          <td>322</td>
+          <td><a href="B0F6SWH6M3.html">B0F6SWH6M3</a></td>
+          <td><a href="B0F6SWH6M3.html">Sleeve Garters, 6 Pcs Long Shirt Sleeve Holders, Sleeve</a></td>
+          <td>£6.67</td>
+          <td><span class="stars">★★★★½</span> 4.4 (67)</td>
+          <td>#13,219</td>
+          <td><strong>496</strong></td>
+          <td><span class="badge badge-orange">17.6%</span></td>
+          <td>£0.17</td>
+          <td>433</td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
+        </tr><tr data-store="322">
+          <td>4</td>
+          <td>322</td>
+          <td><a href="B0F1MWD22H.html">B0F1MWD22H</a></td>
+          <td><a href="B0F1MWD22H.html">12 Pcs Paint Strainer for Emulsion, Filters Strainers P</a></td>
+          <td>£6.67</td>
+          <td><span class="stars">★★★★½</span> 4.6 (27)</td>
+          <td>#7,907</td>
+          <td><strong>455</strong></td>
+          <td><span class="badge badge-orange">13.9%</span></td>
+          <td>£2.47</td>
+          <td>333</td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
+        </tr><tr data-store="322">
+          <td>5</td>
+          <td>322</td>
+          <td><a href="B0DRRL43W6.html">B0DRRL43W6</a></td>
+          <td><a href="B0DRRL43W6.html">2 Pcs Brass Tap Hose Connector, Garden Hose Pipe Connec</a></td>
+          <td>£5.72</td>
+          <td><span class="stars">★★★★☆</span> 4.2 (53)</td>
+          <td>#253</td>
+          <td><strong>444</strong></td>
+          <td><span class="badge badge-red">-35.1%</span></td>
+          <td>£-2.15</td>
+          <td>544</td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
+        </tr><tr data-store="322">
+          <td>6</td>
+          <td>322</td>
+          <td><a href="B0F199DF3V.html">B0F199DF3V</a></td>
+          <td><a href="B0F199DF3V.html">2 Pcs Strimmer Spool for Black and Decker, Strimmer Wir</a></td>
+          <td>£6.99</td>
+          <td><span class="stars">★★★★½</span> 4.4 (129)</td>
+          <td>#4,366</td>
+          <td><strong>295</strong></td>
+          <td><span class="badge badge-red">7.0%</span></td>
+          <td>£1.19</td>
+          <td>125</td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
+        </tr><tr data-store="322">
+          <td>7</td>
+          <td>322</td>
+          <td><a href="B0F6TMDZ3B.html">B0F6TMDZ3B</a></td>
+          <td><a href="B0F6TMDZ3B.html">Wooden Boomerang for Kids &amp; Adults - Easy-to-Throw V-Sh</a></td>
+          <td>£6.99</td>
+          <td><span class="stars">★★★½☆</span> 3.4 (0)</td>
+          <td>#9,786</td>
+          <td><strong>288</strong></td>
+          <td><span class="badge badge-green">32.4%</span></td>
+          <td>£2.64</td>
+          <td>180</td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
+        </tr><tr data-store="322">
+          <td>8</td>
+          <td>322</td>
+          <td><a href="B0F199CC4T.html">B0F199CC4T</a></td>
+          <td><a href="B0F199CC4T.html">4 Pack Strimmer Spool for Black and Decker, AF-100 Stri</a></td>
+          <td>£8.99</td>
+          <td><span class="stars">★★★★½</span> 4.4 (0)</td>
+          <td>#3,997</td>
+          <td><strong>272</strong></td>
+          <td><span class="badge badge-green">25.4%</span></td>
+          <td>£1.84</td>
+          <td>276</td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
+        </tr><tr data-store="322">
+          <td>9</td>
+          <td>322</td>
+          <td><a href="B0F4QQX8G3.html">B0F4QQX8G3</a></td>
+          <td><a href="B0F4QQX8G3.html">Steel Wool Polishing Cotton, Silver 3m*6.5cm Ultra Fine</a></td>
+          <td>£8.99</td>
+          <td><span class="stars">★★★★½</span> 4.7 (0)</td>
+          <td>#22,459</td>
+          <td><strong>271</strong></td>
+          <td><span class="badge badge-green">43.7%</span></td>
+          <td>£5.19</td>
+          <td>105</td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-11 18:10</td>
+        </tr><tr data-store="322">
+          <td>10</td>
+          <td>322</td>
+          <td><a href="B0DQXZXP4F.html">B0DQXZXP4F</a></td>
+          <td><a href="B0DQXZXP4F.html">20 Pcs Party Blowers, Candy Colour Rainbow Party Popper</a></td>
+          <td>£6.99</td>
+          <td><span class="stars">★★★½☆</span> 3.5 (0)</td>
+          <td>#7,277</td>
+          <td><strong>244</strong></td>
+          <td><span class="badge badge-green">31.8%</span></td>
+          <td>£2.99</td>
+          <td>231</td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
+        </tr></tbody>
+    </table>
+  </div>
+  <p style="text-align:center;color:var(--sub);font-size:12px;margin-top:24px;">Hermes Agent · 已分析 10 个产品</p>
+</div>
+</body></html>
