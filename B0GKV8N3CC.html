@@ -36,17 +36,44 @@ a:hover { text-decoration: underline; }
 .bullet-list { padding-left: 20px; }
 .bullet-list li { margin-bottom: 6px; font-size: 14px; color: #333; }
 .calendar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.cal-month { background: var(--card); border-radius: 10px; padding: 10px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.cal-month { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .cal-month .month-name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
 .cal-month .demand { font-size: 12px; color: var(--sub); }
+.cal-month .sales-est { font-size: 11px; color: var(--accent); margin-top: 2px; font-weight: 500; }
 .competitor-table td { font-size: 13px; }
-.restock-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-top: 12px; }
-.restock-box .title { font-weight: 600; color: var(--accent); margin-bottom: 8px; }
-.insight-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.restock-box { border-radius: 12px; padding: 16px; margin-top: 12px; }
+.restock-urgent { background: #fff5f5; border: 1px solid #ffcdd2; }
+.restock-normal { background: #f0f7ff; border: 1px solid #b8d4f0; }
+.restock-batch { background: #f0fff4; border: 1px solid #c8e6c9; }
+.restock-box .title { font-weight: 600; margin-bottom: 8px; }
+.restock-urgent .title { color: var(--red); }
+.restock-normal .title { color: var(--accent); }
+.restock-batch .title { color: var(--green); }
+.insight-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+.insight-box h2 { color: white; margin: 0 0 12px; }
+.insight-box p { font-size: 16px; line-height: 1.8; }
 .filter-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
 .filter-bar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
 .filter-bar input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; width: 200px; }
 .meta-info { color: var(--sub); font-size: 13px; margin-bottom: 20px; }
+.inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.inventory-item { background: #f9f9fb; border-radius: 10px; padding: 12px; text-align: center; }
+.inventory-item .inv-value { font-size: 20px; font-weight: 700; }
+.inventory-item .inv-label { font-size: 11px; color: var(--sub); margin-top: 4px; }
+.stockout-warning { background: #fff5f5; border: 1px solid #ffcdd2; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-weight: 600; color: var(--red); }
+.trend-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 18px; font-weight: 700; }
+.trend-up { color: var(--green); }
+.trend-down { color: var(--red); }
+.trend-flat { color: var(--sub); }
+.phase-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.phase-peak { background: #e8f9ee; color: #1a7d36; }
+.phase-rising { background: #e5f0ff; color: #0051a8; }
+.phase-low { background: #f5f5f7; color: #6e6e73; }
+.phase-declining { background: #fff3e0; color: #c77c00; }
+.countdown-tag { display: inline-block; background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-left: 8px; }
+.suggestion-item { background: #f9f9fb; border-radius: 10px; padding: 14px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
+.suggestion-item .sug-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.suggestion-item .sug-detail { font-size: 13px; color: #555; }
 @media (max-width: 768px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); }
   .calendar-grid { grid-template-columns: repeat(3, 1fr); }
@@ -66,44 +93,117 @@ a:hover { text-decoration: underline; }
       <div class="metric"><div class="value">#33,109</div><div class="label"></div></div>
       <div class="metric"><div class="value">42.0</div><div class="label">月销量</div></div>
       <div class="metric"><div class="value"><span class="badge badge-green">21.8%</span></div><div class="label">毛利率</div></div>
-      <div class="metric"><div class="value">£60.9</div><div class="label">月利润</div></div>
-      <div class="metric"><div class="value">58.0</div><div class="label">FBA库存</div></div>
-      <div class="metric"><div class="value">£0.46</div><div class="label">单件利润</div></div>
+      <div class="metric"><div class="value">0.0</div><div class="label">日均销量</div></div>
     </div>
-  <div class="insight-box"><h2>💡 核心洞察</h2><p>腊肠狗发箍+手套套装是一个小众但有稳定需求的节日装扮产品，当前利润率偏低需要优化
+  <div class="insight-box">
+          <h2>💡 核心洞察</h2>
+          <p>腊肠狗发箍+手套套装是一个小众但有稳定需求的节日装扮产品，当前利润率偏低需要优化
 行动方案：【紧急】6月底前下单补货120件，避免7月底断货；【重要】测试提价至£8.99，观察转化率变化；【重要】优化listing图片和A+内容，突出套装价值感；【计划】7月准备万圣节关键词优化和广告预算翻倍计划；【探索】与1688供应商谈定制包装/配件升级，打造差异化
 优势：腊肠狗（dachshund/sausage dog）在UK是高认知度IP，周边消费成熟、ACOS 12.03%表现良好，广告效率高、竞品不算激烈，该细分赛道卖家不多、FBA库存充足，短期无断货风险
-劣势：定价偏低（~£6.66），在FBA费用结构下利润空间极薄、产品同质化严重，与eBay/Amazon其他卖家的产品高度相似、非万圣节旺季销量仅42件/月，属于慢销品、季节性强，淡季（1-3月）可能面临库存积压</p></div>
-  
-    <div class="card">
-      <h2>📊 Listing 数据</h2>
-      <table>
-        <tr><td style="width:120px;font-weight:600">ASIN</td><td><a href="https://www.amazon.co.uk/dp/B0GKV8N3CC" target="_blank">B0GKV8N3CC</a></td></tr>
-        <tr><td style="font-weight:600">品牌</td><td></td></tr>
-        <tr><td style="font-weight:600">卖家</td><td></td></tr>
-        <tr><td style="font-weight:600">上架日期</td><td></td></tr>
-        <tr><td style="font-weight:600">重量</td><td>g</td></tr>
-        <tr><td style="font-weight:600">A+页面</td><td>❌ 无</td></tr>
-        <tr><td style="font-weight:600">图片数</td><td>0 张</td></tr>
-        <tr><td style="font-weight:600">类目</td><td>Toys &amp; Games &gt; Dress Up &amp; Pretend Play &gt; Costumes &amp; Accessories</td></tr>
-        <tr><td style="font-weight:600">产地</td><td></td></tr>
-      </table>
-      <h3>五点描述</h3>
-      <ul class="bullet-list"></ul>
-    </div>
-  
+劣势：定价偏低（~£6.66），在FBA费用结构下利润空间极薄、产品同质化严重，与eBay/Amazon其他卖家的产品高度相似、非万圣节旺季销量仅42件/月，属于慢销品、季节性强，淡季（1-3月）可能面临库存积压</p>
+        </div>
   
     <div class="card">
       <h2>🔥 趋势分析</h2>
-      <h3>相关事件/趋势</h3>
+      <div style="margin-bottom:16px">
+        <span class="trend-indicator trend-flat">➡️ 平稳</span> 
+      </div>
+      <h3>近期相关事件</h3>
       <ul class="bullet-list"><li>暂无相关事件数据</li></ul>
-      <h3>季节性</h3>
-      <p>暂无季节性数据</p>
-      <h3>社交热度</h3>
-      <p>暂无社交热度数据</p>
-      <h3>Google Trends</h3>
-      <p>暂无搜索趋势数据</p>
+      
+      <h3>Google Trends</h3><p>暂无搜索趋势数据</p>
+      
+      
     </div>
+  
+    <div class="card">
+      <h2>📅 全年需求日历</h2>
+      
+      
+      <div class="calendar-grid"><div class="cal-month">
+                <div class="month-name">1月</div>
+                <div class="demand">高 黑五促销，圣诞备货</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">2月</div>
+                <div class="demand">高 圣诞派对季，Gift Season</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">3月</div>
+                <div class="demand">低-中 春季派对季开始</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">4月</div>
+                <div class="demand">中 复活节派对，school play季</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">5月</div>
+                <div class="demand">中 Bank Holiday派对</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">6月</div>
+                <div class="demand">中 暑假前学校活动，当前月份</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">7月</div>
+                <div class="demand">中-高 暑假夏令营，festival季</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">8月</div>
+                <div class="demand">中-高 National Dog Day (8/26)，暑假活动</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">9月</div>
+                <div class="demand">高 万圣节备货期开始，Back to School</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">10月</div>
+                <div class="demand">极高 万圣节Halloween (10/31) 全年最高峰</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">11月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">12月</div>
+                <div class="demand"></div>
+                
+            </div></div>
+    </div>
+  
+    <div class="card">
+      <h2>📦 库存状态</h2>
+      <div class="inventory-grid">
+        <div class="inventory-item">
+          <div class="inv-value">58.0</div>
+          <div class="inv-label">FBA可售</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">0</div>
+          <div class="inv-label">在途库存</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">0.0</div>
+          <div class="inv-label">日均销量</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">999天</div>
+          <div class="inv-label">可售天数</div>
+        </div>
+      </div>
+      
+      <span class="badge badge-green">库存充足</span>
+    </div>
+  
+    <div class="card">
+      <h2>📦 补货方案</h2>
+      
+      
+      
+      
+    </div>
+  
+  
   
     <div class="card">
       <h2>🏷️ 竞品对比</h2>
@@ -140,33 +240,6 @@ a:hover { text-decoration: underline; }
           <td>-</td>
           <td>-</td>
         </tr></tbody>
-      </table>
-    </div>
-  
-    <div class="card">
-      <h2>💰 利润测算</h2>
-      <table>
-        <tr><td style="width:140px;font-weight:600">售价</td><td>£6.66</td></tr>
-        <tr><td style="font-weight:600">采购成本(1688)</td><td>£2.10</td></tr>
-        <tr><td style="font-weight:600">头程运费</td><td>£0.00</td></tr>
-        <tr><td style="font-weight:600">FBA配送费</td><td>£3.10</td></tr>
-        <tr><td style="font-weight:600">Amazon佣金(15%)</td><td>£1.00</td></tr>
-        <tr style="border-top:2px solid var(--border)"><td style="font-weight:700">单件毛利</td><td style="font-weight:700">£0.46</td></tr>
-        <tr><td style="font-weight:700">毛利率</td><td><span class="badge badge-red">6.9%</span></td></tr>
-      </table>
-      <p style="margin-top:8px;font-size:13px;color:var(--sub)"></p>
-    </div>
-  <div class="card"><h2>📅 全年需求日历</h2><div class="calendar-grid"><div class="cal-month"><div class="month-name">1月</div><div class="demand">高 黑五促销，圣诞备货</div></div><div class="cal-month"><div class="month-name">2月</div><div class="demand">高 圣诞派对季，Gift Season</div></div><div class="cal-month"><div class="month-name">3月</div><div class="demand">低-中 春季派对季开始</div></div><div class="cal-month"><div class="month-name">4月</div><div class="demand">中 复活节派对，school play季</div></div><div class="cal-month"><div class="month-name">5月</div><div class="demand">中 Bank Holiday派对</div></div><div class="cal-month"><div class="month-name">6月</div><div class="demand">中 暑假前学校活动，当前月份</div></div><div class="cal-month"><div class="month-name">7月</div><div class="demand">中-高 暑假夏令营，festival季</div></div><div class="cal-month"><div class="month-name">8月</div><div class="demand">中-高 National Dog Day (8/26)，暑假活动</div></div><div class="cal-month"><div class="month-name">9月</div><div class="demand">高 万圣节备货期开始，Back to School</div></div><div class="cal-month"><div class="month-name">10月</div><div class="demand">极高 万圣节Halloween (10/31) 全年最高峰</div></div><div class="cal-month"><div class="month-name">11月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">12月</div><div class="demand"></div></div></div></div>
-  
-    <div class="card">
-      <h2>📦 补货建议</h2>
-      <div class="restock-box">
-        <div class="title">💡 建议</div>
-        <p>当前库存可维持约42天至7月底。考虑7-8月暑期需求上升及9月万圣节备货期，建议6月底下单补货120件（含安全库存），海运约3周到仓。万圣节前（8月底）需二次补货200+件。</p>
-      </div>
-      <table style="margin-top:12px">
-        <tr><td style="width:140px;font-weight:600">首发备货量</td><td>50 件</td></tr>
-        <tr><td style="font-weight:600">运输方式</td><td>海运(30-40天)</td></tr>
       </table>
     </div>
   <p style="text-align:center;color:var(--sub);font-size:12px;margin-top:24px;">Hermes Agent · 分析日期 2026-06-16</p>

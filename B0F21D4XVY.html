@@ -36,17 +36,44 @@ a:hover { text-decoration: underline; }
 .bullet-list { padding-left: 20px; }
 .bullet-list li { margin-bottom: 6px; font-size: 14px; color: #333; }
 .calendar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.cal-month { background: var(--card); border-radius: 10px; padding: 10px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.cal-month { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .cal-month .month-name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
 .cal-month .demand { font-size: 12px; color: var(--sub); }
+.cal-month .sales-est { font-size: 11px; color: var(--accent); margin-top: 2px; font-weight: 500; }
 .competitor-table td { font-size: 13px; }
-.restock-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-top: 12px; }
-.restock-box .title { font-weight: 600; color: var(--accent); margin-bottom: 8px; }
-.insight-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.restock-box { border-radius: 12px; padding: 16px; margin-top: 12px; }
+.restock-urgent { background: #fff5f5; border: 1px solid #ffcdd2; }
+.restock-normal { background: #f0f7ff; border: 1px solid #b8d4f0; }
+.restock-batch { background: #f0fff4; border: 1px solid #c8e6c9; }
+.restock-box .title { font-weight: 600; margin-bottom: 8px; }
+.restock-urgent .title { color: var(--red); }
+.restock-normal .title { color: var(--accent); }
+.restock-batch .title { color: var(--green); }
+.insight-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+.insight-box h2 { color: white; margin: 0 0 12px; }
+.insight-box p { font-size: 16px; line-height: 1.8; }
 .filter-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
 .filter-bar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
 .filter-bar input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; width: 200px; }
 .meta-info { color: var(--sub); font-size: 13px; margin-bottom: 20px; }
+.inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.inventory-item { background: #f9f9fb; border-radius: 10px; padding: 12px; text-align: center; }
+.inventory-item .inv-value { font-size: 20px; font-weight: 700; }
+.inventory-item .inv-label { font-size: 11px; color: var(--sub); margin-top: 4px; }
+.stockout-warning { background: #fff5f5; border: 1px solid #ffcdd2; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-weight: 600; color: var(--red); }
+.trend-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 18px; font-weight: 700; }
+.trend-up { color: var(--green); }
+.trend-down { color: var(--red); }
+.trend-flat { color: var(--sub); }
+.phase-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.phase-peak { background: #e8f9ee; color: #1a7d36; }
+.phase-rising { background: #e5f0ff; color: #0051a8; }
+.phase-low { background: #f5f5f7; color: #6e6e73; }
+.phase-declining { background: #fff3e0; color: #c77c00; }
+.countdown-tag { display: inline-block; background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-left: 8px; }
+.suggestion-item { background: #f9f9fb; border-radius: 10px; padding: 14px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
+.suggestion-item .sug-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.suggestion-item .sug-detail { font-size: 13px; color: #555; }
 @media (max-width: 768px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); }
   .calendar-grid { grid-template-columns: repeat(3, 1fr); }
@@ -66,41 +93,114 @@ a:hover { text-decoration: underline; }
       <div class="metric"><div class="value">#26,582</div><div class="label"></div></div>
       <div class="metric"><div class="value">185</div><div class="label">月销量</div></div>
       <div class="metric"><div class="value"><span class="badge badge-red">0.2%</span></div><div class="label">毛利率</div></div>
-      <div class="metric"><div class="value">£193.0</div><div class="label">月利润</div></div>
-      <div class="metric"><div class="value">190</div><div class="label">FBA库存</div></div>
-      <div class="metric"><div class="value">£4.18</div><div class="label">单件利润</div></div>
+      <div class="metric"><div class="value">0.0</div><div class="label">日均销量</div></div>
     </div>
-  <div class="insight-box"><h2>💡 核心洞察</h2><p>该产品利润率较高（52%），但定价£7.99在发夹品类中严重偏高（竞品主流£2-4），导致月销仅185单。建议立即将价格调整至£4.99并增加数量至24支以上，以匹配市场主流价格带。1688采购成本极低（约¥1.3/12支），即使降价仍有可观利润空间。</p></div>
-  
-    <div class="card">
-      <h2>📊 Listing 数据</h2>
-      <table>
-        <tr><td style="width:120px;font-weight:600">ASIN</td><td><a href="https://www.amazon.co.uk/dp/B0F21D4XVY" target="_blank">B0F21D4XVY</a></td></tr>
-        <tr><td style="font-weight:600">品牌</td><td>Generic</td></tr>
-        <tr><td style="font-weight:600">卖家</td><td>Store 322</td></tr>
-        <tr><td style="font-weight:600">上架日期</td><td></td></tr>
-        <tr><td style="font-weight:600">重量</td><td>g</td></tr>
-        <tr><td style="font-weight:600">A+页面</td><td>❌ 无</td></tr>
-        <tr><td style="font-weight:600">图片数</td><td>5 张</td></tr>
-        <tr><td style="font-weight:600">类目</td><td>Beauty &gt; Hair Care &gt; Hair Accessories &gt; Hair Clips</td></tr>
-        <tr><td style="font-weight:600">产地</td><td></td></tr>
-      </table>
-      <h3>五点描述</h3>
-      <ul class="bullet-list"><li>12 Pcs Black Bobby Pins - Classic hair grips for everyday styling</li><li>Suitable for all hair types - thick, thin, curly, straight</li><li>Durable metal construction with cushioned tips</li><li>Ideal for buns, updos, and securing flyaways</li><li>Compact size, easy to carry in purse or travel bag</li></ul>
-    </div>
-  <div class="card"><h2>📈 评论分布</h2><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">5星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:60.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">60%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">4星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:20.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">20%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">3星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:10.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">10%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">2星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:5.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">5%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">1星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:5.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">5%</span></div></div>
+  <div class="insight-box">
+          <h2>💡 核心洞察</h2>
+          <p>该产品利润率较高（52%），但定价£7.99在发夹品类中严重偏高（竞品主流£2-4），导致月销仅185单。建议立即将价格调整至£4.99并增加数量至24支以上，以匹配市场主流价格带。1688采购成本极低（约¥1.3/12支），即使降价仍有可观利润空间。</p>
+        </div>
   
     <div class="card">
       <h2>🔥 趋势分析</h2>
-      <h3>相关事件/趋势</h3>
+      <div style="margin-bottom:16px">
+        <span class="trend-indicator trend-flat">➡️ 平稳</span> 
+      </div>
+      <h3>近期相关事件</h3>
       <ul class="bullet-list"><li>{&#x27;name&#x27;: &#x27;夏季盘发需求高峰&#x27;, &#x27;date&#x27;: &#x27;2026-06至2026-08&#x27;, &#x27;impact&#x27;: &#x27;中等&#x27;, &#x27;description&#x27;: &#x27;夏季高温促使消费者扎起头发，发夹需求自然上升&#x27;}</li><li>{&#x27;name&#x27;: &#x27;返校季&#x27;, &#x27;date&#x27;: &#x27;2026-09&#x27;, &#x27;impact&#x27;: &#x27;中等&#x27;, &#x27;description&#x27;: &#x27;学生群体开学采购发饰，带动基础发夹销量&#x27;}</li><li>{&#x27;name&#x27;: &#x27;圣诞节礼品类套装&#x27;, &#x27;date&#x27;: &#x27;2026-11至2026-12&#x27;, &#x27;impact&#x27;: &#x27;低&#x27;, &#x27;description&#x27;: &#x27;发夹可作为圣诞袜小礼品或礼盒套装销售&#x27;}</li></ul>
-      <h3>季节性</h3>
-      <p>全年需求稳定，属日常必需品，夏季略有高峰</p>
-      <h3>社交热度</h3>
-      <p>低</p>
-      <h3>Google Trends</h3>
-      <p>搜索量全年平稳，无明显趋势变化</p>
+      
+      <h3>Google Trends</h3><p>搜索量全年平稳，无明显趋势变化</p>
+      
+      
     </div>
+  
+    <div class="card">
+      <h2>📅 全年需求日历</h2>
+      
+      
+      <div class="calendar-grid"><div class="cal-month">
+                <div class="month-name">1月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">2月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">3月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">4月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">5月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">6月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">7月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">8月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">9月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">10月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">11月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">12月</div>
+                <div class="demand"></div>
+                
+            </div></div>
+    </div>
+  
+    <div class="card">
+      <h2>📦 库存状态</h2>
+      <div class="inventory-grid">
+        <div class="inventory-item">
+          <div class="inv-value">190</div>
+          <div class="inv-label">FBA可售</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">0</div>
+          <div class="inv-label">在途库存</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">0.0</div>
+          <div class="inv-label">日均销量</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">999天</div>
+          <div class="inv-label">可售天数</div>
+        </div>
+      </div>
+      
+      <span class="badge badge-green">库存充足</span>
+    </div>
+  
+    <div class="card">
+      <h2>📦 补货方案</h2>
+      
+      
+      
+      
+    </div>
+  
+  <div class="card"><h2>📈 评论分布</h2><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">5星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:60.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">60%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">4星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:20.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">20%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">3星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:10.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">10%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">2星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:5.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">5%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">1星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:5.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">5%</span></div></div>
   
     <div class="card">
       <h2>🏷️ 竞品对比</h2>
@@ -131,33 +231,6 @@ a:hover { text-decoration: underline; }
           <td><span class='stars'>★★★★☆</span> 4.3</td>
           <td>850</td>
         </tr></tbody>
-      </table>
-    </div>
-  
-    <div class="card">
-      <h2>💰 利润测算</h2>
-      <table>
-        <tr><td style="width:140px;font-weight:600">售价</td><td>£7.99</td></tr>
-        <tr><td style="font-weight:600">采购成本(1688)</td><td>£0.15</td></tr>
-        <tr><td style="font-weight:600">头程运费</td><td>£1.00</td></tr>
-        <tr><td style="font-weight:600">FBA配送费</td><td>£1.46</td></tr>
-        <tr><td style="font-weight:600">Amazon佣金(15%)</td><td>£1.20</td></tr>
-        <tr style="border-top:2px solid var(--border)"><td style="font-weight:700">单件毛利</td><td style="font-weight:700">£4.18</td></tr>
-        <tr><td style="font-weight:700">毛利率</td><td><span class="badge badge-green">52.3%</span></td></tr>
-      </table>
-      <p style="margin-top:8px;font-size:13px;color:var(--sub)">1688采购成本极低（12支黑色一字夹约¥1.3），但市场竞争激烈，主流价格区间£2-4。当前定价£7.99偏高，仅靠185单/月维持。建议降价至£4.99-5.99或增加数量至24-50支以提升竞争力。</p>
-    </div>
-  <div class="card"><h2>📅 全年需求日历</h2><div class="calendar-grid"><div class="cal-month"><div class="month-name">1月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;新年新造型，需求平稳&#x27;}</div></div><div class="cal-month"><div class="month-name">2月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;情人节礼物季，发饰可作小礼物&#x27;}</div></div><div class="cal-month"><div class="month-name">3月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;春季换季，需求稳定&#x27;}</div></div><div class="cal-month"><div class="month-name">4月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;春季婚礼季开始，盘发需求增加&#x27;}</div></div><div class="cal-month"><div class="month-name">5月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥🔥&#x27;, &#x27;description&#x27;: &#x27;婚礼高峰期，发饰需求上升&#x27;}</div></div><div class="cal-month"><div class="month-name">6月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥🔥&#x27;, &#x27;description&#x27;: &#x27;夏季开始，扎发需求增加&#x27;}</div></div><div class="cal-month"><div class="month-name">7月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥🔥🔥&#x27;, &#x27;description&#x27;: &#x27;盛夏高温，盘发扎发高峰&#x27;}</div></div><div class="cal-month"><div class="month-name">8月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥🔥🔥&#x27;, &#x27;description&#x27;: &#x27;夏季持续高温，需求旺盛&#x27;}</div></div><div class="cal-month"><div class="month-name">9月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥🔥&#x27;, &#x27;description&#x27;: &#x27;返校季采购高峰&#x27;}</div></div><div class="cal-month"><div class="month-name">10月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;万圣节造型可能带动需求&#x27;}</div></div><div class="cal-month"><div class="month-name">11月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;黑五促销可带动销量&#x27;}</div></div><div class="cal-month"><div class="month-name">12月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;圣诞派对季，发饰作为小礼品&#x27;}</div></div></div></div>
-  
-    <div class="card">
-      <h2>📦 补货建议</h2>
-      <div class="restock-box">
-        <div class="title">💡 建议</div>
-        <p>当前FBA库存190件，月销185件，库存周转约1个月。鉴于利润率尚可但竞争激烈，建议小批量补货200-300件，维持1-1.5个月库存。优先考虑降低售价或增加产品数量来提升竞争力。</p>
-      </div>
-      <table style="margin-top:12px">
-        <tr><td style="width:140px;font-weight:600">首发备货量</td><td>250 件</td></tr>
-        <tr><td style="font-weight:600">运输方式</td><td>国际小包/邮政小包，约15-20天到达，成本低</td></tr>
       </table>
     </div>
   <p style="text-align:center;color:var(--sub);font-size:12px;margin-top:24px;">Hermes Agent · 分析日期 2026-06-15</p>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>产品深度分析</title>
+<title>产品运营分析</title>
 <style>
 :root {
   --bg: #f5f5f7; --card: #ffffff; --text: #1d1d1f; --sub: #6e6e73;
@@ -36,17 +36,44 @@ a:hover { text-decoration: underline; }
 .bullet-list { padding-left: 20px; }
 .bullet-list li { margin-bottom: 6px; font-size: 14px; color: #333; }
 .calendar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.cal-month { background: var(--card); border-radius: 10px; padding: 10px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.cal-month { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .cal-month .month-name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
 .cal-month .demand { font-size: 12px; color: var(--sub); }
+.cal-month .sales-est { font-size: 11px; color: var(--accent); margin-top: 2px; font-weight: 500; }
 .competitor-table td { font-size: 13px; }
-.restock-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-top: 12px; }
-.restock-box .title { font-weight: 600; color: var(--accent); margin-bottom: 8px; }
-.insight-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.restock-box { border-radius: 12px; padding: 16px; margin-top: 12px; }
+.restock-urgent { background: #fff5f5; border: 1px solid #ffcdd2; }
+.restock-normal { background: #f0f7ff; border: 1px solid #b8d4f0; }
+.restock-batch { background: #f0fff4; border: 1px solid #c8e6c9; }
+.restock-box .title { font-weight: 600; margin-bottom: 8px; }
+.restock-urgent .title { color: var(--red); }
+.restock-normal .title { color: var(--accent); }
+.restock-batch .title { color: var(--green); }
+.insight-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+.insight-box h2 { color: white; margin: 0 0 12px; }
+.insight-box p { font-size: 16px; line-height: 1.8; }
 .filter-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
 .filter-bar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
 .filter-bar input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; width: 200px; }
 .meta-info { color: var(--sub); font-size: 13px; margin-bottom: 20px; }
+.inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.inventory-item { background: #f9f9fb; border-radius: 10px; padding: 12px; text-align: center; }
+.inventory-item .inv-value { font-size: 20px; font-weight: 700; }
+.inventory-item .inv-label { font-size: 11px; color: var(--sub); margin-top: 4px; }
+.stockout-warning { background: #fff5f5; border: 1px solid #ffcdd2; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-weight: 600; color: var(--red); }
+.trend-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 18px; font-weight: 700; }
+.trend-up { color: var(--green); }
+.trend-down { color: var(--red); }
+.trend-flat { color: var(--sub); }
+.phase-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.phase-peak { background: #e8f9ee; color: #1a7d36; }
+.phase-rising { background: #e5f0ff; color: #0051a8; }
+.phase-low { background: #f5f5f7; color: #6e6e73; }
+.phase-declining { background: #fff3e0; color: #c77c00; }
+.countdown-tag { display: inline-block; background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-left: 8px; }
+.suggestion-item { background: #f9f9fb; border-radius: 10px; padding: 14px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
+.suggestion-item .sug-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.suggestion-item .sug-detail { font-size: 13px; color: #555; }
 @media (max-width: 768px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); }
   .calendar-grid { grid-template-columns: repeat(3, 1fr); }
@@ -75,8 +102,8 @@ function filterTable() {
 </script>
 </head><body>
 <div class="container">
-  <h1>📦 产品深度分析</h1>
-  <div class="meta-info">分析日期: 2026-06-16 11:07 · 数据来源: 领星ERP + Amazon UK</div>
+  <h1>📦 产品运营分析</h1>
+  <div class="meta-info">分析日期: 2026-06-24 22:11 · 数据来源: 领星ERP + Amazon UK</div>
   <div class="filter-bar">
     <select id="storeFilter" onchange="filterTable()"><option value="all">全部店铺</option><option value="007">007</option><option value="322">322</option></select>
     <input id="searchInput" type="text" placeholder="搜索ASIN/品名..." oninput="filterTable()">
@@ -85,7 +112,7 @@ function filterTable() {
   <div class="card" style="overflow-x:auto">
     <table id="productTable">
       <thead><tr>
-        <th>#</th><th>店铺</th><th>ASIN</th><th>品名</th><th>售价</th><th>评分</th><th>BSR</th><th>月销量</th><th>毛利率</th><th>单件利润</th><th>FBA库存</th><th>分析日期</th>
+        <th>#</th><th>店铺</th><th>ASIN</th><th>品名</th><th>售价</th><th>评分</th><th>BSR</th><th>月销量</th><th>趋势</th><th>库存(在售/在途)</th><th>断货风险</th><th>分析日期</th>
       </tr></thead>
       <tbody><tr data-store="322">
           <td>1</td>
@@ -96,9 +123,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.7 (139)</td>
           <td>#3,808</td>
           <td><strong>749</strong></td>
-          <td><span class="badge badge-orange">14.0%</span></td>
-          <td>£2.17</td>
-          <td>1,055</td>
+          <td>➡️</td>
+          <td>1,055 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
         </tr><tr data-store="322">
           <td>2</td>
@@ -109,9 +136,9 @@ function filterTable() {
           <td><span class="stars">★★★★☆</span> 4.0 (147)</td>
           <td>#8,220</td>
           <td><strong>555</strong></td>
-          <td><span class="badge badge-green">25.2%</span></td>
-          <td>£1.88</td>
-          <td>326</td>
+          <td>➡️</td>
+          <td>326 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
         </tr><tr data-store="322">
           <td>3</td>
@@ -122,9 +149,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.4 (67)</td>
           <td>#13,219</td>
           <td><strong>496</strong></td>
-          <td><span class="badge badge-orange">17.6%</span></td>
-          <td>£0.17</td>
-          <td>433</td>
+          <td>➡️</td>
+          <td>433 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
         </tr><tr data-store="322">
           <td>4</td>
@@ -135,9 +162,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.6 (27)</td>
           <td>#7,907</td>
           <td><strong>455</strong></td>
-          <td><span class="badge badge-orange">13.9%</span></td>
-          <td>£2.47</td>
-          <td>333</td>
+          <td>➡️</td>
+          <td>333 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
         </tr><tr data-store="322">
           <td>5</td>
@@ -148,9 +175,9 @@ function filterTable() {
           <td><span class="stars">★★★★☆</span> 4.2 (53)</td>
           <td>#253</td>
           <td><strong>444</strong></td>
-          <td><span class="badge badge-red">-35.1%</span></td>
-          <td>£-2.15</td>
-          <td>544</td>
+          <td>➡️</td>
+          <td>544 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
         </tr><tr data-store="322">
           <td>6</td>
@@ -161,9 +188,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.4 (129)</td>
           <td>#4,366</td>
           <td><strong>295</strong></td>
-          <td><span class="badge badge-red">7.0%</span></td>
-          <td>£1.19</td>
-          <td>125</td>
+          <td>➡️</td>
+          <td>125 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
         </tr><tr data-store="322">
           <td>7</td>
@@ -174,9 +201,9 @@ function filterTable() {
           <td><span class="stars">★★★½☆</span> 3.4 (0)</td>
           <td>#9,786</td>
           <td><strong>288</strong></td>
-          <td><span class="badge badge-green">32.4%</span></td>
-          <td>£2.64</td>
-          <td>180</td>
+          <td>➡️</td>
+          <td>180 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
         </tr><tr data-store="322">
           <td>8</td>
@@ -187,9 +214,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.4 (0)</td>
           <td>#3,997</td>
           <td><strong>272</strong></td>
-          <td><span class="badge badge-green">25.4%</span></td>
-          <td>£1.84</td>
-          <td>276</td>
+          <td>➡️</td>
+          <td>276 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
         </tr><tr data-store="322">
           <td>9</td>
@@ -200,9 +227,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.7 (0)</td>
           <td>#22,459</td>
           <td><strong>271</strong></td>
-          <td><span class="badge badge-green">43.7%</span></td>
-          <td>£5.19</td>
-          <td>105</td>
+          <td>➡️</td>
+          <td>105 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-11 18:10</td>
         </tr><tr data-store="322">
           <td>10</td>
@@ -213,9 +240,9 @@ function filterTable() {
           <td><span class="stars">★★★★★</span> 5.0 (12)</td>
           <td>#11,868</td>
           <td><strong>246</strong></td>
-          <td><span class="badge badge-green">31.4%</span></td>
-          <td>£3.68</td>
-          <td>116</td>
+          <td>➡️</td>
+          <td>116 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15 18:00</td>
         </tr><tr data-store="322">
           <td>11</td>
@@ -226,9 +253,9 @@ function filterTable() {
           <td><span class="stars">★★★½☆</span> 3.5 (0)</td>
           <td>#7,277</td>
           <td><strong>244</strong></td>
-          <td><span class="badge badge-green">31.8%</span></td>
-          <td>£2.99</td>
-          <td>231</td>
+          <td>➡️</td>
+          <td>231 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-11 18:30</td>
         </tr><tr data-store="322">
           <td>12</td>
@@ -239,9 +266,9 @@ function filterTable() {
           <td><span class="stars">★★★★★</span> 5.0 (15)</td>
           <td>#46,665</td>
           <td><strong>242</strong></td>
-          <td><span class="badge badge-orange">14.9%</span></td>
-          <td>£3.73</td>
-          <td>252</td>
+          <td>➡️</td>
+          <td>252 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15 18:00</td>
         </tr><tr data-store="322">
           <td>13</td>
@@ -252,9 +279,9 @@ function filterTable() {
           <td><span class="stars">★★★★☆</span> 4.2 (45)</td>
           <td>#14,653</td>
           <td><strong>219</strong></td>
-          <td><span class="badge badge-orange">18.0%</span></td>
-          <td>£2.33</td>
-          <td>223</td>
+          <td>➡️</td>
+          <td>223 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15 18:00</td>
         </tr><tr data-store="322">
           <td>14</td>
@@ -265,9 +292,9 @@ function filterTable() {
           <td><span class="stars">★★★½☆</span> 3.9 (85)</td>
           <td>#5,357</td>
           <td><strong>216</strong></td>
-          <td><span class="badge badge-red">0.3%</span></td>
-          <td>£2.32</td>
-          <td>147</td>
+          <td>➡️</td>
+          <td>147 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15 18:00</td>
         </tr><tr data-store="322">
           <td>15</td>
@@ -278,9 +305,9 @@ function filterTable() {
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#16,611</td>
           <td><strong>211</strong></td>
-          <td><span class="badge badge-red">0.2%</span></td>
-          <td>£1.58</td>
-          <td>458</td>
+          <td>➡️</td>
+          <td>458 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15</td>
         </tr><tr data-store="322">
           <td>16</td>
@@ -291,9 +318,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.7 (62)</td>
           <td>#3,851</td>
           <td><strong>189</strong></td>
-          <td><span class="badge badge-red">0.5%</span></td>
-          <td>£2.64</td>
-          <td>284</td>
+          <td>➡️</td>
+          <td>284 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15 18:00</td>
         </tr><tr data-store="322">
           <td>17</td>
@@ -304,9 +331,9 @@ function filterTable() {
           <td><span class="stars">★★★½☆</span> 3.7 (28)</td>
           <td>#71,445</td>
           <td><strong>186</strong></td>
-          <td><span class="badge badge-red">0.2%</span></td>
-          <td>£3.74</td>
-          <td>1</td>
+          <td>➡️</td>
+          <td>1 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15 18:00</td>
         </tr><tr data-store="322">
           <td>18</td>
@@ -317,9 +344,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.4 (0)</td>
           <td>#26,582</td>
           <td><strong>185</strong></td>
-          <td><span class="badge badge-red">0.2%</span></td>
-          <td>£4.18</td>
-          <td>190</td>
+          <td>➡️</td>
+          <td>190 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15</td>
         </tr><tr data-store="322">
           <td>19</td>
@@ -330,9 +357,9 @@ function filterTable() {
           <td><span class="stars">★★★★☆</span> 4.0 (0)</td>
           <td>#39,922</td>
           <td><strong>165</strong></td>
-          <td><span class="badge badge-red">0.1%</span></td>
-          <td>£1.29</td>
-          <td>161</td>
+          <td>➡️</td>
+          <td>161 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15</td>
         </tr><tr data-store="322">
           <td>20</td>
@@ -343,9 +370,9 @@ function filterTable() {
           <td><span class="stars">★★★★☆</span> 4.2 (0)</td>
           <td>#60,538</td>
           <td><strong>160</strong></td>
-          <td><span class="badge badge-red">0.5%</span></td>
-          <td>£3.88</td>
-          <td>166</td>
+          <td>➡️</td>
+          <td>166 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15</td>
         </tr><tr data-store="007">
           <td>21</td>
@@ -356,9 +383,9 @@ function filterTable() {
           <td><span class="stars">★★★★★</span> 5.0 (3)</td>
           <td>#45,000</td>
           <td><strong>86</strong></td>
-          <td><span class="badge badge-orange">17.1%</span></td>
-          <td>£1.15</td>
-          <td>59</td>
+          <td>➡️</td>
+          <td>59 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16 10:00</td>
         </tr><tr data-store="007">
           <td>22</td>
@@ -369,9 +396,9 @@ function filterTable() {
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#99,181</td>
           <td><strong>69.0</strong></td>
-          <td><span class="badge badge-green">36.1%</span></td>
-          <td>£0.89</td>
-          <td>87.0</td>
+          <td>➡️</td>
+          <td>87.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>23</td>
@@ -382,9 +409,9 @@ function filterTable() {
           <td><span class="stars">★★★½☆</span> 3.8 (8.0)</td>
           <td>#71,696</td>
           <td><strong>68.0</strong></td>
-          <td><span class="badge badge-orange">18.5%</span></td>
-          <td>£0.19</td>
-          <td>137.0</td>
+          <td>➡️</td>
+          <td>137.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>24</td>
@@ -395,9 +422,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.7 (4)</td>
           <td>#76,852</td>
           <td><strong>55.0</strong></td>
-          <td><span class="badge badge-green">27.3%</span></td>
-          <td>£1.58</td>
-          <td>218.0</td>
+          <td>➡️</td>
+          <td>218.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>25</td>
@@ -408,9 +435,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.8 (6.0)</td>
           <td>#185,446</td>
           <td><strong>48.0</strong></td>
-          <td><span class="badge badge-green">21.6%</span></td>
-          <td>£0.90</td>
-          <td>1.0</td>
+          <td>➡️</td>
+          <td>1.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>26</td>
@@ -421,9 +448,9 @@ function filterTable() {
           <td><span class="stars">★★★★☆</span> 4.2 (3.0)</td>
           <td>#108,151</td>
           <td><strong>46.0</strong></td>
-          <td><span class="badge badge-orange">18.4%</span></td>
-          <td>£2.53</td>
-          <td>103.0</td>
+          <td>➡️</td>
+          <td>103.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>27</td>
@@ -434,9 +461,9 @@ function filterTable() {
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#73,233</td>
           <td><strong>46.0</strong></td>
-          <td><span class="badge badge-green">26.2%</span></td>
-          <td>£1.50</td>
-          <td>93.0</td>
+          <td>➡️</td>
+          <td>93.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>28</td>
@@ -447,9 +474,9 @@ function filterTable() {
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#47,541</td>
           <td><strong>44</strong></td>
-          <td><span class="badge badge-green">52.7%</span></td>
-          <td>£1.06</td>
-          <td>35</td>
+          <td>➡️</td>
+          <td>35 / 0</td>
+          <td><span class="badge badge-blue">30天内需补货</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15 19:00</td>
         </tr><tr data-store="007">
           <td>29</td>
@@ -460,9 +487,9 @@ function filterTable() {
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#70,265</td>
           <td><strong>44</strong></td>
-          <td><span class="badge badge-green">40.3%</span></td>
-          <td>£1.00</td>
-          <td>46</td>
+          <td>➡️</td>
+          <td>46 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15 19:00</td>
         </tr><tr data-store="007">
           <td>30</td>
@@ -473,9 +500,9 @@ function filterTable() {
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#271,922</td>
           <td><strong>44.0</strong></td>
-          <td><span class="badge badge-red">3.4%</span></td>
-          <td>£1.00</td>
-          <td>5.0</td>
+          <td>➡️</td>
+          <td>5.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>31</td>
@@ -486,9 +513,9 @@ function filterTable() {
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#33,109</td>
           <td><strong>42.0</strong></td>
-          <td><span class="badge badge-green">21.8%</span></td>
-          <td>£0.46</td>
-          <td>58.0</td>
+          <td>➡️</td>
+          <td>58.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>32</td>
@@ -499,12 +526,25 @@ function filterTable() {
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#85,735</td>
           <td><strong>42.0</strong></td>
-          <td><span class="badge badge-green">38.7%</span></td>
-          <td>£0.50</td>
-          <td>68</td>
+          <td>➡️</td>
+          <td>68 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>33</td>
+          <td>007</td>
+          <td><a href="B0GY91K8MN.html">B0GY91K8MN</a></td>
+          <td><a href="B0GY91K8MN.html">LY懒人拉链领带-黑色-1件</a></td>
+          <td>£4.99</td>
+          <td><span class="stars">★★★★☆</span> 4.2 (15)</td>
+          <td>#45,000</td>
+          <td><strong>42</strong></td>
+          <td>📈</td>
+          <td>28 / 100</td>
+          <td><span class="badge badge-blue">30天内需补货</span></td>
+          <td style="font-size:12px;color:var(--sub)">2026-06-24 18:00</td>
+        </tr><tr data-store="007">
+          <td>34</td>
           <td>007</td>
           <td><a href="B0GKTZP68Q.html">B0GKTZP68Q</a></td>
           <td><a href="B0GKTZP68Q.html">Finger Football Game - 2 Goals, 1 Ball, 2 White &amp; 2 Ora</a></td>
@@ -512,23 +552,10 @@ function filterTable() {
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#14,226</td>
           <td><strong>39.0</strong></td>
-          <td><span class="badge badge-orange">19.6%</span></td>
-          <td>£0.87</td>
-          <td>5.0</td>
+          <td>➡️</td>
+          <td>5.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
-        </tr><tr data-store="007">
-          <td>34</td>
-          <td>007</td>
-          <td><a href="B0GY91K8MN.html">B0GY91K8MN</a></td>
-          <td><a href="B0GY91K8MN.html">LY懒人拉链领带-黑色-1件</a></td>
-          <td>£4.99</td>
-          <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
-          <td>#100,758</td>
-          <td><strong>38</strong></td>
-          <td><span class="badge badge-red">-8.0%</span></td>
-          <td>£-0.21</td>
-          <td>7</td>
-          <td style="font-size:12px;color:var(--sub)">2026-06-15 19:00</td>
         </tr><tr data-store="007">
           <td>35</td>
           <td>007</td>
@@ -538,9 +565,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.8 (4.0)</td>
           <td>#30,072</td>
           <td><strong>37.0</strong></td>
-          <td><span class="badge badge-red">-5.4%</span></td>
-          <td>£0.54</td>
-          <td>108.0</td>
+          <td>➡️</td>
+          <td>108.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>36</td>
@@ -551,9 +578,9 @@ function filterTable() {
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#403,109</td>
           <td><strong>35</strong></td>
-          <td><span class="badge badge-green">62.5%</span></td>
-          <td>£1.46</td>
-          <td>12</td>
+          <td>➡️</td>
+          <td>12 / 0</td>
+          <td><span class="badge badge-orange">⚠️ 14天内断货</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-15 19:00</td>
         </tr><tr data-store="007">
           <td>37</td>
@@ -564,9 +591,9 @@ function filterTable() {
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#58,483</td>
           <td><strong>34.0</strong></td>
-          <td><span class="badge badge-red">0.4%</span></td>
-          <td>£0.61</td>
-          <td>28.0</td>
+          <td>➡️</td>
+          <td>28.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>38</td>
@@ -577,9 +604,9 @@ function filterTable() {
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#41,391</td>
           <td><strong>33.0</strong></td>
-          <td><span class="badge badge-green">37.6%</span></td>
-          <td>£1.88</td>
-          <td>65.0</td>
+          <td>➡️</td>
+          <td>65.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>39</td>
@@ -590,9 +617,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.5 (2.0)</td>
           <td>#52,528</td>
           <td><strong>33.0</strong></td>
-          <td><span class="badge badge-green">20.5%</span></td>
-          <td>£4.37</td>
-          <td>13.0</td>
+          <td>➡️</td>
+          <td>13.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>40</td>
@@ -603,9 +630,9 @@ function filterTable() {
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#110,406</td>
           <td><strong>32.0</strong></td>
-          <td><span class="badge badge-green">21.4%</span></td>
-          <td>£1.10</td>
-          <td>26.0</td>
+          <td>➡️</td>
+          <td>26.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>41</td>
@@ -616,9 +643,9 @@ function filterTable() {
           <td><span class="stars">★★★★☆</span> 4.0 (2.0)</td>
           <td>#35,591</td>
           <td><strong>30.0</strong></td>
-          <td><span class="badge badge-orange">10.4%</span></td>
-          <td>£0.69</td>
-          <td>37.0</td>
+          <td>➡️</td>
+          <td>37.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>42</td>
@@ -629,9 +656,9 @@ function filterTable() {
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#73,528</td>
           <td><strong>30.0</strong></td>
-          <td><span class="badge badge-orange">16.1%</span></td>
-          <td>£1.59</td>
-          <td>36.0</td>
+          <td>➡️</td>
+          <td>36.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>43</td>
@@ -642,9 +669,9 @@ function filterTable() {
           <td><span class="stars">★★★★½</span> 4.8 (5.0)</td>
           <td>#50,642</td>
           <td><strong>27.0</strong></td>
-          <td><span class="badge badge-orange">11.7%</span></td>
-          <td>£0.48</td>
-          <td>118.0</td>
+          <td>➡️</td>
+          <td>118.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr><tr data-store="007">
           <td>44</td>
@@ -655,9 +682,9 @@ function filterTable() {
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#46,823</td>
           <td><strong>27.0</strong></td>
-          <td><span class="badge badge-green">33.9%</span></td>
-          <td>£2.24</td>
-          <td>194.0</td>
+          <td>➡️</td>
+          <td>194.0 / 0</td>
+          <td><span class="badge badge-green">库存充足</span></td>
           <td style="font-size:12px;color:var(--sub)">2026-06-16</td>
         </tr></tbody>
     </table>

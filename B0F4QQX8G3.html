@@ -36,17 +36,44 @@ a:hover { text-decoration: underline; }
 .bullet-list { padding-left: 20px; }
 .bullet-list li { margin-bottom: 6px; font-size: 14px; color: #333; }
 .calendar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.cal-month { background: var(--card); border-radius: 10px; padding: 10px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.cal-month { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .cal-month .month-name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
 .cal-month .demand { font-size: 12px; color: var(--sub); }
+.cal-month .sales-est { font-size: 11px; color: var(--accent); margin-top: 2px; font-weight: 500; }
 .competitor-table td { font-size: 13px; }
-.restock-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-top: 12px; }
-.restock-box .title { font-weight: 600; color: var(--accent); margin-bottom: 8px; }
-.insight-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.restock-box { border-radius: 12px; padding: 16px; margin-top: 12px; }
+.restock-urgent { background: #fff5f5; border: 1px solid #ffcdd2; }
+.restock-normal { background: #f0f7ff; border: 1px solid #b8d4f0; }
+.restock-batch { background: #f0fff4; border: 1px solid #c8e6c9; }
+.restock-box .title { font-weight: 600; margin-bottom: 8px; }
+.restock-urgent .title { color: var(--red); }
+.restock-normal .title { color: var(--accent); }
+.restock-batch .title { color: var(--green); }
+.insight-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+.insight-box h2 { color: white; margin: 0 0 12px; }
+.insight-box p { font-size: 16px; line-height: 1.8; }
 .filter-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
 .filter-bar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
 .filter-bar input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; width: 200px; }
 .meta-info { color: var(--sub); font-size: 13px; margin-bottom: 20px; }
+.inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.inventory-item { background: #f9f9fb; border-radius: 10px; padding: 12px; text-align: center; }
+.inventory-item .inv-value { font-size: 20px; font-weight: 700; }
+.inventory-item .inv-label { font-size: 11px; color: var(--sub); margin-top: 4px; }
+.stockout-warning { background: #fff5f5; border: 1px solid #ffcdd2; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-weight: 600; color: var(--red); }
+.trend-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 18px; font-weight: 700; }
+.trend-up { color: var(--green); }
+.trend-down { color: var(--red); }
+.trend-flat { color: var(--sub); }
+.phase-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.phase-peak { background: #e8f9ee; color: #1a7d36; }
+.phase-rising { background: #e5f0ff; color: #0051a8; }
+.phase-low { background: #f5f5f7; color: #6e6e73; }
+.phase-declining { background: #fff3e0; color: #c77c00; }
+.countdown-tag { display: inline-block; background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-left: 8px; }
+.suggestion-item { background: #f9f9fb; border-radius: 10px; padding: 14px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
+.suggestion-item .sug-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.suggestion-item .sug-detail { font-size: 13px; color: #555; }
 @media (max-width: 768px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); }
   .calendar-grid { grid-template-columns: repeat(3, 1fr); }
@@ -66,41 +93,114 @@ a:hover { text-decoration: underline; }
       <div class="metric"><div class="value">#22,459</div><div class="label">Sanding Steel Wool</div></div>
       <div class="metric"><div class="value">271</div><div class="label">月销量</div></div>
       <div class="metric"><div class="value"><span class="badge badge-green">43.7%</span></div><div class="label">毛利率</div></div>
-      <div class="metric"><div class="value">£707.2</div><div class="label">月利润</div></div>
-      <div class="metric"><div class="value">105</div><div class="label">FBA库存</div></div>
-      <div class="metric"><div class="value">£5.19</div><div class="label">单件利润</div></div>
+      <div class="metric"><div class="value">0.0</div><div class="label">日均销量</div></div>
     </div>
-  <div class="insight-box"><h2>💡 核心洞察</h2><p>这是322店的明星产品：57.7%毛利率 + £707月利润 + 全年需求稳定。钢丝绒的核心卖点不是&#x27;抛光&#x27;而是&#x27;防鼠&#x27;——Amazon US畅销榜前10有6个主打mice control定位。建议：①标题加入&#x27;mice control/rodent proofing&#x27;关键词，蹭防鼠流量；②五点描述增加防鼠堵洞使用场景；③10月前备足库存迎接防鼠季高峰；④1688采购价极低(¥3-4/卷)，可考虑推出多卷装套装提高客单价。</p></div>
-  
-    <div class="card">
-      <h2>📊 Listing 数据</h2>
-      <table>
-        <tr><td style="width:120px;font-weight:600">ASIN</td><td><a href="https://www.amazon.co.uk/dp/B0F4QQX8G3" target="_blank">B0F4QQX8G3</a></td></tr>
-        <tr><td style="font-weight:600">品牌</td><td>Toumett</td></tr>
-        <tr><td style="font-weight:600">卖家</td><td>Toumett</td></tr>
-        <tr><td style="font-weight:600">上架日期</td><td></td></tr>
-        <tr><td style="font-weight:600">重量</td><td>50g</td></tr>
-        <tr><td style="font-weight:600">A+页面</td><td>❌ 无</td></tr>
-        <tr><td style="font-weight:600">图片数</td><td>7 张</td></tr>
-        <tr><td style="font-weight:600">类目</td><td>DIY &amp; Tools &gt; Sanding &amp; Polishing &gt; Sanding Steel Wool</td></tr>
-        <tr><td style="font-weight:600">产地</td><td></td></tr>
-      </table>
-      <h3>五点描述</h3>
-      <ul class="bullet-list"><li>Ultra-fine 0000 grade steel wool for professional polishing</li><li>Suitable for glass, metal, chrome, wood surfaces</li><li>3m length x 6.5cm width - generous amount</li><li>Soft, thick, fluffy - can be bent or shaped</li><li>For rust removal, paint preparation, wood finishing</li></ul>
-    </div>
-  
+  <div class="insight-box">
+          <h2>💡 核心洞察</h2>
+          <p>这是322店的明星产品：57.7%毛利率 + £707月利润 + 全年需求稳定。钢丝绒的核心卖点不是&#x27;抛光&#x27;而是&#x27;防鼠&#x27;——Amazon US畅销榜前10有6个主打mice control定位。建议：①标题加入&#x27;mice control/rodent proofing&#x27;关键词，蹭防鼠流量；②五点描述增加防鼠堵洞使用场景；③10月前备足库存迎接防鼠季高峰；④1688采购价极低(¥3-4/卷)，可考虑推出多卷装套装提高客单价。</p>
+        </div>
   
     <div class="card">
       <h2>🔥 趋势分析</h2>
-      <h3>相关事件/趋势</h3>
+      <div style="margin-bottom:16px">
+        <span class="trend-indicator trend-flat">➡️ 平稳</span> 
+      </div>
+      <h3>近期相关事件</h3>
       <ul class="bullet-list"><li>全球钢丝绒市场2025年估值18.2亿美元，预计2034年达29.1亿美元，年复合增长率5.4%</li><li>英国Rentokil害虫防治2025年报告：老鼠占所有害虫案件的25%，推动钢丝绒堵洞需求</li><li>TikTok/YouTube上&#x27;steel wool spring cleaning&#x27;内容持续走红，DIY博主带动销量</li><li>Amazon US畅销榜前10有6个是&#x27;mice control&#x27;定位产品，防鼠需求是最大流量入口</li><li>英国春季大扫除(Mar-May)和秋季防寒(Oct-Nov)是传统DIY高峰</li></ul>
-      <h3>季节性</h3>
-      <p>全年有量型产品。春季(3-5月)DIY装修+大扫除是第一高峰，秋季(10-11月)防寒堵洞是第二高峰，夏季(6-8月)粉刷翻新也有需求，冬季(12-2月)最低但不归零。</p>
-      <h3>社交热度</h3>
-      <p>中等偏高 — TikTok上spring cleaning+steel wool话题有大量播放，YouTube DIY频道常推荐，Reddit r/pestcontrol社区活跃讨论</p>
-      <h3>Google Trends</h3>
-      <p>UK搜索&#x27;steel wool&#x27;全年稳定，&#x27;steel wool mice&#x27;在10-11月有明显峰值（入冬老鼠进屋），&#x27;steel wool polishing&#x27;在3-5月有小幅高峰</p>
+      
+      <h3>Google Trends</h3><p>UK搜索&#x27;steel wool&#x27;全年稳定，&#x27;steel wool mice&#x27;在10-11月有明显峰值（入冬老鼠进屋），&#x27;steel wool polishing&#x27;在3-5月有小幅高峰</p>
+      
+      
     </div>
+  
+    <div class="card">
+      <h2>📅 全年需求日历</h2>
+      
+      
+      <div class="calendar-grid"><div class="cal-month">
+                <div class="month-name">1月</div>
+                <div class="demand">🔥 低谷期 — 冬季DIY减少，但防鼠堵洞需求仍在</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">2月</div>
+                <div class="demand">🔥 预热期 — 情人节后开始春季大扫除准备</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">3月</div>
+                <div class="demand">🔥🔥 春季大扫除 — DIY装修旺季开始，TikTok cleaning话题走红</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">4月</div>
+                <div class="demand">🔥🔥 春季DIY高峰 — 粉刷翻新、木器打磨需求旺</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">5月</div>
+                <div class="demand">🔥🔥 春季收尾 — 配合油漆/涂料销售的连带需求</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">6月</div>
+                <div class="demand">🔥🔥 夏季项目 — 户外家具翻新、花园维护</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">7月</div>
+                <div class="demand">🔥🔥 夏季DIY — 假期装修项目</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">8月</div>
+                <div class="demand">🔥🔥 夏季收尾 — 返校前家庭修缮</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">9月</div>
+                <div class="demand">🔥🔥 秋季准备 — 检查门窗缝隙，为入冬做准备</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">10月</div>
+                <div class="demand">🔥🔥🔥 防鼠季开始 — 入冬老鼠进屋高峰，steel wool mice搜索量飙升</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">11月</div>
+                <div class="demand">🔥🔥🔥 防鼠季高峰 — Rentokil数据显示10-11月害虫投诉最多</div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">12月</div>
+                <div class="demand">🔥 圣诞淡季 — DIY减少，但节前大扫除有小幅需求</div>
+                
+            </div></div>
+    </div>
+  
+    <div class="card">
+      <h2>📦 库存状态</h2>
+      <div class="inventory-grid">
+        <div class="inventory-item">
+          <div class="inv-value">105</div>
+          <div class="inv-label">FBA可售</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">0</div>
+          <div class="inv-label">在途库存</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">0.0</div>
+          <div class="inv-label">日均销量</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">999天</div>
+          <div class="inv-label">可售天数</div>
+        </div>
+      </div>
+      
+      <span class="badge badge-green">库存充足</span>
+    </div>
+  
+    <div class="card">
+      <h2>📦 补货方案</h2>
+      
+      
+      
+      
+    </div>
+  
+  
   
     <div class="card">
       <h2>🏷️ 竞品对比</h2>
@@ -131,33 +231,6 @@ a:hover { text-decoration: underline; }
           <td>-</td>
           <td>-</td>
         </tr></tbody>
-      </table>
-    </div>
-  
-    <div class="card">
-      <h2>💰 利润测算</h2>
-      <table>
-        <tr><td style="width:140px;font-weight:600">售价</td><td>£8.99</td></tr>
-        <tr><td style="font-weight:600">采购成本(1688)</td><td>£0.30</td></tr>
-        <tr><td style="font-weight:600">头程运费</td><td>£0.15</td></tr>
-        <tr><td style="font-weight:600">FBA配送费</td><td>£2.00</td></tr>
-        <tr><td style="font-weight:600">Amazon佣金(15%)</td><td>£1.35</td></tr>
-        <tr style="border-top:2px solid var(--border)"><td style="font-weight:700">单件毛利</td><td style="font-weight:700">£5.19</td></tr>
-        <tr><td style="font-weight:700">毛利率</td><td><span class="badge badge-green">57.7%</span></td></tr>
-      </table>
-      <p style="margin-top:8px;font-size:13px;color:var(--sub)">1688上0000级钢丝绒约¥2.85-9.50/卷(3米)，批量采购约¥3-4/卷(≈£0.30-0.42)。极轻(50g)，空运成本极低。FBA按小标准件计费约£2.00。Amazon佣金15%=£1.35。综合毛利率57.7%，是目前322店利润率最高的产品。</p>
-    </div>
-  <div class="card"><h2>📅 全年需求日历</h2><div class="calendar-grid"><div class="cal-month"><div class="month-name">1月</div><div class="demand">🔥 低谷期 — 冬季DIY减少，但防鼠堵洞需求仍在</div></div><div class="cal-month"><div class="month-name">2月</div><div class="demand">🔥 预热期 — 情人节后开始春季大扫除准备</div></div><div class="cal-month"><div class="month-name">3月</div><div class="demand">🔥🔥 春季大扫除 — DIY装修旺季开始，TikTok cleaning话题走红</div></div><div class="cal-month"><div class="month-name">4月</div><div class="demand">🔥🔥 春季DIY高峰 — 粉刷翻新、木器打磨需求旺</div></div><div class="cal-month"><div class="month-name">5月</div><div class="demand">🔥🔥 春季收尾 — 配合油漆/涂料销售的连带需求</div></div><div class="cal-month"><div class="month-name">6月</div><div class="demand">🔥🔥 夏季项目 — 户外家具翻新、花园维护</div></div><div class="cal-month"><div class="month-name">7月</div><div class="demand">🔥🔥 夏季DIY — 假期装修项目</div></div><div class="cal-month"><div class="month-name">8月</div><div class="demand">🔥🔥 夏季收尾 — 返校前家庭修缮</div></div><div class="cal-month"><div class="month-name">9月</div><div class="demand">🔥🔥 秋季准备 — 检查门窗缝隙，为入冬做准备</div></div><div class="cal-month"><div class="month-name">10月</div><div class="demand">🔥🔥🔥 防鼠季开始 — 入冬老鼠进屋高峰，steel wool mice搜索量飙升</div></div><div class="cal-month"><div class="month-name">11月</div><div class="demand">🔥🔥🔥 防鼠季高峰 — Rentokil数据显示10-11月害虫投诉最多</div></div><div class="cal-month"><div class="month-name">12月</div><div class="demand">🔥 圣诞淡季 — DIY减少，但节前大扫除有小幅需求</div></div></div></div>
-  
-    <div class="card">
-      <h2>📦 补货建议</h2>
-      <div class="restock-box">
-        <div class="title">💡 建议</div>
-        <p>✅ 这是322店最赚钱的产品 — 毛利率57.7%，月利润£707，全年有量。当前FBA仅剩105件≈12天库存，急需补货。建议首批补500件空运，后续转海运降成本。10-11月防鼠季是下一个高峰，需提前备足库存。</p>
-      </div>
-      <table style="margin-top:12px">
-        <tr><td style="width:140px;font-weight:600">首发备货量</td><td>500 件</td></tr>
-        <tr><td style="font-weight:600">运输方式</td><td>空运(7-10天) — 当前库存告急，先空运补上；后续稳定后转海运(30-40天)节省运费，因为全年有量不急</td></tr>
       </table>
     </div>
   <p style="text-align:center;color:var(--sub);font-size:12px;margin-top:24px;">Hermes Agent · 分析日期 2026-06-11 18:10</p>

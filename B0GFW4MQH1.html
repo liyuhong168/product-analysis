@@ -36,17 +36,44 @@ a:hover { text-decoration: underline; }
 .bullet-list { padding-left: 20px; }
 .bullet-list li { margin-bottom: 6px; font-size: 14px; color: #333; }
 .calendar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.cal-month { background: var(--card); border-radius: 10px; padding: 10px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.cal-month { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .cal-month .month-name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
 .cal-month .demand { font-size: 12px; color: var(--sub); }
+.cal-month .sales-est { font-size: 11px; color: var(--accent); margin-top: 2px; font-weight: 500; }
 .competitor-table td { font-size: 13px; }
-.restock-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-top: 12px; }
-.restock-box .title { font-weight: 600; color: var(--accent); margin-bottom: 8px; }
-.insight-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.restock-box { border-radius: 12px; padding: 16px; margin-top: 12px; }
+.restock-urgent { background: #fff5f5; border: 1px solid #ffcdd2; }
+.restock-normal { background: #f0f7ff; border: 1px solid #b8d4f0; }
+.restock-batch { background: #f0fff4; border: 1px solid #c8e6c9; }
+.restock-box .title { font-weight: 600; margin-bottom: 8px; }
+.restock-urgent .title { color: var(--red); }
+.restock-normal .title { color: var(--accent); }
+.restock-batch .title { color: var(--green); }
+.insight-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+.insight-box h2 { color: white; margin: 0 0 12px; }
+.insight-box p { font-size: 16px; line-height: 1.8; }
 .filter-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
 .filter-bar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
 .filter-bar input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; width: 200px; }
 .meta-info { color: var(--sub); font-size: 13px; margin-bottom: 20px; }
+.inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.inventory-item { background: #f9f9fb; border-radius: 10px; padding: 12px; text-align: center; }
+.inventory-item .inv-value { font-size: 20px; font-weight: 700; }
+.inventory-item .inv-label { font-size: 11px; color: var(--sub); margin-top: 4px; }
+.stockout-warning { background: #fff5f5; border: 1px solid #ffcdd2; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-weight: 600; color: var(--red); }
+.trend-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 18px; font-weight: 700; }
+.trend-up { color: var(--green); }
+.trend-down { color: var(--red); }
+.trend-flat { color: var(--sub); }
+.phase-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.phase-peak { background: #e8f9ee; color: #1a7d36; }
+.phase-rising { background: #e5f0ff; color: #0051a8; }
+.phase-low { background: #f5f5f7; color: #6e6e73; }
+.phase-declining { background: #fff3e0; color: #c77c00; }
+.countdown-tag { display: inline-block; background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-left: 8px; }
+.suggestion-item { background: #f9f9fb; border-radius: 10px; padding: 14px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
+.suggestion-item .sug-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.suggestion-item .sug-detail { font-size: 13px; color: #555; }
 @media (max-width: 768px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); }
   .calendar-grid { grid-template-columns: repeat(3, 1fr); }
@@ -66,41 +93,114 @@ a:hover { text-decoration: underline; }
       <div class="metric"><div class="value">#16,611</div><div class="label"></div></div>
       <div class="metric"><div class="value">211</div><div class="label">月销量</div></div>
       <div class="metric"><div class="value"><span class="badge badge-red">0.2%</span></div><div class="label">毛利率</div></div>
-      <div class="metric"><div class="value">£123.0</div><div class="label">月利润</div></div>
-      <div class="metric"><div class="value">458</div><div class="label">FBA库存</div></div>
-      <div class="metric"><div class="value">£1.58</div><div class="label">单件利润</div></div>
+      <div class="metric"><div class="value">0.0</div><div class="label">日均销量</div></div>
     </div>
-  <div class="insight-box"><h2>💡 核心洞察</h2><p>世界杯已于6月11日开赛，这是极其紧迫的时效性产品。当前458件库存是双刃剑——英格兰走得越远，库存消化越快；若小组赛出局则大量积压。建议立即加大广告投入抓住世界杯窗口期，同时准备好降价清仓方案。世界杯结束后此ASIN将迅速失去价值，必须在7月19日前完成主要销售。</p></div>
-  
-    <div class="card">
-      <h2>📊 Listing 数据</h2>
-      <table>
-        <tr><td style="width:120px;font-weight:600">ASIN</td><td><a href="https://www.amazon.co.uk/dp/B0GFW4MQH1" target="_blank">B0GFW4MQH1</a></td></tr>
-        <tr><td style="font-weight:600">品牌</td><td>Generic</td></tr>
-        <tr><td style="font-weight:600">卖家</td><td>Store 322</td></tr>
-        <tr><td style="font-weight:600">上架日期</td><td></td></tr>
-        <tr><td style="font-weight:600">重量</td><td>g</td></tr>
-        <tr><td style="font-weight:600">A+页面</td><td>❌ 无</td></tr>
-        <tr><td style="font-weight:600">图片数</td><td>5 张</td></tr>
-        <tr><td style="font-weight:600">类目</td><td>Home &amp; Kitchen &gt; Party Supplies &gt; Napkins</td></tr>
-        <tr><td style="font-weight:600">产地</td><td></td></tr>
-      </table>
-      <h3>五点描述</h3>
-      <ul class="bullet-list"><li>World Cup 2026 Football Theme Paper Napkins - Perfect for match day parties</li><li>20 Pack disposable napkins with vibrant football pitch design</li><li>3-ply quality paper, durable and absorbent</li><li>Ideal for football birthday parties, World Cup viewing events</li><li>Food safe materials, suitable for all ages</li></ul>
-    </div>
-  
+  <div class="insight-box">
+          <h2>💡 核心洞察</h2>
+          <p>世界杯已于6月11日开赛，这是极其紧迫的时效性产品。当前458件库存是双刃剑——英格兰走得越远，库存消化越快；若小组赛出局则大量积压。建议立即加大广告投入抓住世界杯窗口期，同时准备好降价清仓方案。世界杯结束后此ASIN将迅速失去价值，必须在7月19日前完成主要销售。</p>
+        </div>
   
     <div class="card">
       <h2>🔥 趋势分析</h2>
-      <h3>相关事件/趋势</h3>
+      <div style="margin-bottom:16px">
+        <span class="trend-indicator trend-flat">➡️ 平稳</span> 
+      </div>
+      <h3>近期相关事件</h3>
       <ul class="bullet-list"><li>{&#x27;name&#x27;: &#x27;2026年FIFA世界杯&#x27;, &#x27;date&#x27;: &#x27;2026-06-11至2026-07-19&#x27;, &#x27;impact&#x27;: &#x27;极高&#x27;, &#x27;description&#x27;: &#x27;2026世界杯于6月11日在美国/墨西哥/加拿大开赛，英国足球文化浓厚，英格兰比赛期间派对用品需求爆发性增长&#x27;}</li><li>{&#x27;name&#x27;: &#x27;英格兰小组赛关键场次&#x27;, &#x27;date&#x27;: &#x27;2026-06-14至2026-06-24&#x27;, &#x27;impact&#x27;: &#x27;极高&#x27;, &#x27;description&#x27;: &#x27;英格兰小组赛期间，英国全国性观赛派对，纸巾等派对用品需求激增&#x27;}</li><li>{&#x27;name&#x27;: &#x27;淘汰赛阶段&#x27;, &#x27;date&#x27;: &#x27;2026-06-28至2026-07-19&#x27;, &#x27;impact&#x27;: &#x27;高&#x27;, &#x27;description&#x27;: &#x27;若英格兰进入淘汰赛，需求将持续攀升；若提前淘汰则库存积压风险大&#x27;}</li><li>{&#x27;name&#x27;: &#x27;欧洲杯预选赛&#x27;, &#x27;date&#x27;: &#x27;2026-09至2026-11&#x27;, &#x27;impact&#x27;: &#x27;中等&#x27;, &#x27;description&#x27;: &#x27;国际比赛日可维持部分足球主题派对需求&#x27;}</li></ul>
-      <h3>季节性</h3>
-      <p>极度依赖赛事周期，世界杯/欧洲杯期间需求暴增，赛事结束后需求骤降</p>
-      <h3>社交热度</h3>
-      <p>极高</p>
-      <h3>Google Trends</h3>
-      <p>搜索量在世界杯期间飙升10-20倍，赛事结束后迅速回落</p>
+      
+      <h3>Google Trends</h3><p>搜索量在世界杯期间飙升10-20倍，赛事结束后迅速回落</p>
+      
+      
     </div>
+  
+    <div class="card">
+      <h2>📅 全年需求日历</h2>
+      
+      
+      <div class="calendar-grid"><div class="cal-month">
+                <div class="month-name">1月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">2月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">3月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">4月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">5月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">6月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">7月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">8月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">9月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">10月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">11月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">12月</div>
+                <div class="demand"></div>
+                
+            </div></div>
+    </div>
+  
+    <div class="card">
+      <h2>📦 库存状态</h2>
+      <div class="inventory-grid">
+        <div class="inventory-item">
+          <div class="inv-value">458</div>
+          <div class="inv-label">FBA可售</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">0</div>
+          <div class="inv-label">在途库存</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">0.0</div>
+          <div class="inv-label">日均销量</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">999天</div>
+          <div class="inv-label">可售天数</div>
+        </div>
+      </div>
+      
+      <span class="badge badge-green">库存充足</span>
+    </div>
+  
+    <div class="card">
+      <h2>📦 补货方案</h2>
+      
+      
+      
+      
+    </div>
+  
+  
   
     <div class="card">
       <h2>🏷️ 竞品对比</h2>
@@ -131,33 +231,6 @@ a:hover { text-decoration: underline; }
           <td><span class='stars'>★★★★½</span> 4.4</td>
           <td>65</td>
         </tr></tbody>
-      </table>
-    </div>
-  
-    <div class="card">
-      <h2>💰 利润测算</h2>
-      <table>
-        <tr><td style="width:140px;font-weight:600">售价</td><td>£4.99</td></tr>
-        <tr><td style="font-weight:600">采购成本(1688)</td><td>£0.40</td></tr>
-        <tr><td style="font-weight:600">头程运费</td><td>£0.80</td></tr>
-        <tr><td style="font-weight:600">FBA配送费</td><td>£1.46</td></tr>
-        <tr><td style="font-weight:600">Amazon佣金(15%)</td><td>£0.75</td></tr>
-        <tr style="border-top:2px solid var(--border)"><td style="font-weight:700">单件毛利</td><td style="font-weight:700">£1.58</td></tr>
-        <tr><td style="font-weight:700">毛利率</td><td><span class="badge badge-green">31.7%</span></td></tr>
-      </table>
-      <p style="margin-top:8px;font-size:13px;color:var(--sub)">1688足球主题纸巾20张约¥3.5-4.0（含印刷），加上国际运费约¥7。利润率一般，但世界杯期间可通过高销量弥补。关键风险：若英格兰提前淘汰，458件库存可能滞销。建议分批发货，首批200件观察销量，世界杯期间根据英格兰赛程动态调整。</p>
-    </div>
-  <div class="card"><h2>📅 全年需求日历</h2><div class="calendar-grid"><div class="cal-month"><div class="month-name">1月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥&#x27;, &#x27;description&#x27;: &#x27;淡季，几乎无足球派对需求&#x27;}</div></div><div class="cal-month"><div class="month-name">2月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥&#x27;, &#x27;description&#x27;: &#x27;淡季，需求极低&#x27;}</div></div><div class="cal-month"><div class="month-name">3月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥&#x27;, &#x27;description&#x27;: &#x27;淡季，偶有生日派对需求&#x27;}</div></div><div class="cal-month"><div class="month-name">4月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥&#x27;, &#x27;description&#x27;: &#x27;淡季&#x27;}</div></div><div class="cal-month"><div class="month-name">5月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;欧冠决赛等赛事可带动少量需求&#x27;}</div></div><div class="cal-month"><div class="month-name">6月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥🔥🔥🔥&#x27;, &#x27;description&#x27;: &#x27;世界杯开赛！英格兰比赛日需求爆发，观赛派对用品抢购&#x27;}</div></div><div class="cal-month"><div class="month-name">7月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥🔥🔥&#x27;, &#x27;description&#x27;: &#x27;世界杯淘汰赛和决赛阶段，需求持续高位&#x27;}</div></div><div class="cal-month"><div class="month-name">8月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;英超新赛季开始，小规模派对需求&#x27;}</div></div><div class="cal-month"><div class="month-name">9月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;英超进行中，偶有足球派对&#x27;}</div></div><div class="cal-month"><div class="month-name">10月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;国际比赛日，少量需求&#x27;}</div></div><div class="cal-month"><div class="month-name">11月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥&#x27;, &#x27;description&#x27;: &#x27;黑五促销+国际比赛日&#x27;}</div></div><div class="cal-month"><div class="month-name">12月</div><div class="demand">{&#x27;intensity&#x27;: &#x27;🔥🔥🔥&#x27;, &#x27;description&#x27;: &#x27;英超圣诞赛程密集，节日派对需求上升&#x27;}</div></div></div></div>
-  
-    <div class="card">
-      <h2>📦 补货建议</h2>
-      <div class="restock-box">
-        <div class="title">💡 建议</div>
-        <p>世界杯已于6月11日开赛，当前FBA库存458件需紧急评估。若英格兰表现良好，库存可能在6-7月消化完毕；若英格兰小组赛出局，剩余库存将严重滞销。建议立即监控英格兰赛程，世界杯结束后将剩余库存降价清仓。不要追加补货，等赛事结果明朗后再决定。</p>
-      </div>
-      <table style="margin-top:12px">
-        <tr><td style="width:140px;font-weight:600">首发备货量</td><td>0 件</td></tr>
-        <tr><td style="font-weight:600">运输方式</td><td>暂不补货，观察现有458件库存消化速度</td></tr>
       </table>
     </div>
   <p style="text-align:center;color:var(--sub);font-size:12px;margin-top:24px;">Hermes Agent · 分析日期 2026-06-15</p>

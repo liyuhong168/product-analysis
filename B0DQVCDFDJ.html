@@ -36,17 +36,44 @@ a:hover { text-decoration: underline; }
 .bullet-list { padding-left: 20px; }
 .bullet-list li { margin-bottom: 6px; font-size: 14px; color: #333; }
 .calendar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.cal-month { background: var(--card); border-radius: 10px; padding: 10px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.cal-month { background: var(--card); border-radius: 10px; padding: 12px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .cal-month .month-name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
 .cal-month .demand { font-size: 12px; color: var(--sub); }
+.cal-month .sales-est { font-size: 11px; color: var(--accent); margin-top: 2px; font-weight: 500; }
 .competitor-table td { font-size: 13px; }
-.restock-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-top: 12px; }
-.restock-box .title { font-weight: 600; color: var(--accent); margin-bottom: 8px; }
-.insight-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.restock-box { border-radius: 12px; padding: 16px; margin-top: 12px; }
+.restock-urgent { background: #fff5f5; border: 1px solid #ffcdd2; }
+.restock-normal { background: #f0f7ff; border: 1px solid #b8d4f0; }
+.restock-batch { background: #f0fff4; border: 1px solid #c8e6c9; }
+.restock-box .title { font-weight: 600; margin-bottom: 8px; }
+.restock-urgent .title { color: var(--red); }
+.restock-normal .title { color: var(--accent); }
+.restock-batch .title { color: var(--green); }
+.insight-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+.insight-box h2 { color: white; margin: 0 0 12px; }
+.insight-box p { font-size: 16px; line-height: 1.8; }
 .filter-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
 .filter-bar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
 .filter-bar input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; width: 200px; }
 .meta-info { color: var(--sub); font-size: 13px; margin-bottom: 20px; }
+.inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.inventory-item { background: #f9f9fb; border-radius: 10px; padding: 12px; text-align: center; }
+.inventory-item .inv-value { font-size: 20px; font-weight: 700; }
+.inventory-item .inv-label { font-size: 11px; color: var(--sub); margin-top: 4px; }
+.stockout-warning { background: #fff5f5; border: 1px solid #ffcdd2; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-weight: 600; color: var(--red); }
+.trend-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 18px; font-weight: 700; }
+.trend-up { color: var(--green); }
+.trend-down { color: var(--red); }
+.trend-flat { color: var(--sub); }
+.phase-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.phase-peak { background: #e8f9ee; color: #1a7d36; }
+.phase-rising { background: #e5f0ff; color: #0051a8; }
+.phase-low { background: #f5f5f7; color: #6e6e73; }
+.phase-declining { background: #fff3e0; color: #c77c00; }
+.countdown-tag { display: inline-block; background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-left: 8px; }
+.suggestion-item { background: #f9f9fb; border-radius: 10px; padding: 14px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
+.suggestion-item .sug-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.suggestion-item .sug-detail { font-size: 13px; color: #555; }
 @media (max-width: 768px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); }
   .calendar-grid { grid-template-columns: repeat(3, 1fr); }
@@ -66,41 +93,114 @@ a:hover { text-decoration: underline; }
       <div class="metric"><div class="value">#5,357</div><div class="label"></div></div>
       <div class="metric"><div class="value">216</div><div class="label">月销量</div></div>
       <div class="metric"><div class="value"><span class="badge badge-red">0.3%</span></div><div class="label">毛利率</div></div>
-      <div class="metric"><div class="value">£225.0</div><div class="label">月利润</div></div>
-      <div class="metric"><div class="value">147</div><div class="label">FBA库存</div></div>
-      <div class="metric"><div class="value">£2.32</div><div class="label">单件利润</div></div>
+      <div class="metric"><div class="value">0.0</div><div class="label">日均销量</div></div>
     </div>
-  <div class="insight-box"><h2>💡 核心洞察</h2><p>光头头套是万圣节刚需配件，竞品Grapelet以£4.99低价+205评价占据优势但评分仅3.8★，差评集中在太薄易破。建议采购1688加厚版本(成本约¥4-5)作为差异化卖点，在listing标题和bullet中强调&#x27;thick latex&#x27;关键词。7月必须启动FBA入仓，9月前完成全部备货，10月全力投放广告抢夺万圣节流量。</p></div>
-  
-    <div class="card">
-      <h2>📊 Listing 数据</h2>
-      <table>
-        <tr><td style="width:120px;font-weight:600">ASIN</td><td><a href="https://www.amazon.co.uk/dp/B0DQVCDFDJ" target="_blank">B0DQVCDFDJ</a></td></tr>
-        <tr><td style="font-weight:600">品牌</td><td>Generic</td></tr>
-        <tr><td style="font-weight:600">卖家</td><td>Store-322</td></tr>
-        <tr><td style="font-weight:600">上架日期</td><td></td></tr>
-        <tr><td style="font-weight:600">重量</td><td>80g</td></tr>
-        <tr><td style="font-weight:600">A+页面</td><td>❌ 无</td></tr>
-        <tr><td style="font-weight:600">图片数</td><td>6 张</td></tr>
-        <tr><td style="font-weight:600">类目</td><td>Toys &amp; Games &gt; Costume Accessories &gt; Masks</td></tr>
-        <tr><td style="font-weight:600">产地</td><td></td></tr>
-      </table>
-      <h3>五点描述</h3>
-      <ul class="bullet-list"><li>Made from premium natural latex, soft and elastic, fits most adult head sizes comfortably</li><li>Realistic bald head appearance for Halloween, cosplay, theatre, film and fancy dress parties</li><li>Stretchable and durable material, not easy to tear, can be trimmed around ears for better fit</li><li>Perfect costume accessory for dressing up as monks, bald characters, aliens, and more</li><li>Lightweight and breathable design, comfortable to wear for extended periods</li></ul>
-    </div>
-  <div class="card"><h2>📈 评论分布</h2><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">5星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:40.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">40%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">4星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:18.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">18%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">3星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:22.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">22%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">2星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:10.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">10%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">1星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:10.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">10%</span></div></div>
+  <div class="insight-box">
+          <h2>💡 核心洞察</h2>
+          <p>光头头套是万圣节刚需配件，竞品Grapelet以£4.99低价+205评价占据优势但评分仅3.8★，差评集中在太薄易破。建议采购1688加厚版本(成本约¥4-5)作为差异化卖点，在listing标题和bullet中强调&#x27;thick latex&#x27;关键词。7月必须启动FBA入仓，9月前完成全部备货，10月全力投放广告抢夺万圣节流量。</p>
+        </div>
   
     <div class="card">
       <h2>🔥 趋势分析</h2>
-      <h3>相关事件/趋势</h3>
+      <div style="margin-bottom:16px">
+        <span class="trend-indicator trend-flat">➡️ 平稳</span> 
+      </div>
+      <h3>近期相关事件</h3>
       <ul class="bullet-list"><li>{&#x27;date&#x27;: &#x27;2026-10-31&#x27;, &#x27;name&#x27;: &#x27;万圣节 Halloween&#x27;, &#x27;description&#x27;: &#x27;万圣节是光头头套的绝对销售高峰期，9-10月销量占全年80%以上，需提前60天备货&#x27;}</li><li>{&#x27;date&#x27;: &#x27;2026-12-25&#x27;, &#x27;name&#x27;: &#x27;圣诞节派对季&#x27;, &#x27;description&#x27;: &#x27;圣诞及新年派对季带动cosplay道具需求，销量约为万圣节的20-30%&#x27;}</li><li>{&#x27;date&#x27;: &#x27;2026-08-25&#x27;, &#x27;name&#x27;: &#x27;返校季/戏剧演出季&#x27;, &#x27;description&#x27;: &#x27;英国学校戏剧演出和舞台剧道具需求，带动部分非季节性销售&#x27;}</li><li>{&#x27;date&#x27;: &#x27;2026-06-15&#x27;, &#x27;name&#x27;: &#x27;Comic Con漫展&#x27;, &#x27;description&#x27;: &#x27;英国Comic Con等动漫展会在夏季举办，cosplay道具需求增加&#x27;}</li></ul>
-      <h3>季节性</h3>
-      <p>强季节性产品，80%销售集中在9-11月（万圣节前后），全年有少量cosplay/戏剧需求</p>
-      <h3>社交热度</h3>
-      <p>中等，万圣节期间TikTok和Instagram有大量cosplay展示内容</p>
-      <h3>Google Trends</h3>
-      <p>halloween bald cap搜索量在9-10月激增10-15倍</p>
+      
+      <h3>Google Trends</h3><p>halloween bald cap搜索量在9-10月激增10-15倍</p>
+      
+      
     </div>
+  
+    <div class="card">
+      <h2>📅 全年需求日历</h2>
+      
+      
+      <div class="calendar-grid"><div class="cal-month">
+                <div class="month-name">1月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">2月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">3月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">4月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">5月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">6月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">7月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">8月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">9月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">10月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">11月</div>
+                <div class="demand"></div>
+                
+            </div><div class="cal-month">
+                <div class="month-name">12月</div>
+                <div class="demand"></div>
+                
+            </div></div>
+    </div>
+  
+    <div class="card">
+      <h2>📦 库存状态</h2>
+      <div class="inventory-grid">
+        <div class="inventory-item">
+          <div class="inv-value">147</div>
+          <div class="inv-label">FBA可售</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">0</div>
+          <div class="inv-label">在途库存</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">0.0</div>
+          <div class="inv-label">日均销量</div>
+        </div>
+        <div class="inventory-item">
+          <div class="inv-value">999天</div>
+          <div class="inv-label">可售天数</div>
+        </div>
+      </div>
+      
+      <span class="badge badge-green">库存充足</span>
+    </div>
+  
+    <div class="card">
+      <h2>📦 补货方案</h2>
+      
+      
+      
+      
+    </div>
+  
+  <div class="card"><h2>📈 评论分布</h2><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">5星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:40.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">40%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">4星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:18.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">18%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">3星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:22.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">22%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">2星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:10.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">10%</span></div><div style="display:flex;align-items:center;gap:8px;margin:4px 0"><span style="width:40px;text-align:right;font-size:13px">1星</span><div style="flex:1;background:#f0f0f2;border-radius:4px;height:16px"><div style="width:10.0%;background:#ff9500;height:100%;border-radius:4px"></div></div><span style="width:40px;font-size:13px">10%</span></div></div>
   
     <div class="card">
       <h2>🏷️ 竞品对比</h2>
@@ -131,33 +231,6 @@ a:hover { text-decoration: underline; }
           <td><span class='stars'>★★★★★</span> 5.0</td>
           <td>1</td>
         </tr></tbody>
-      </table>
-    </div>
-  
-    <div class="card">
-      <h2>💰 利润测算</h2>
-      <table>
-        <tr><td style="width:140px;font-weight:600">售价</td><td>£5.99</td></tr>
-        <tr><td style="font-weight:600">采购成本(1688)</td><td>£0.45</td></tr>
-        <tr><td style="font-weight:600">头程运费</td><td>£0.80</td></tr>
-        <tr><td style="font-weight:600">FBA配送费</td><td>£1.52</td></tr>
-        <tr><td style="font-weight:600">Amazon佣金(15%)</td><td>£0.90</td></tr>
-        <tr style="border-top:2px solid var(--border)"><td style="font-weight:700">单件毛利</td><td style="font-weight:700">£2.32</td></tr>
-        <tr><td style="font-weight:700">毛利率</td><td><span class="badge badge-green">38.7%</span></td></tr>
-      </table>
-      <p style="margin-top:8px;font-size:13px;color:var(--sub)">1688批发价约¥3-5/个，乳胶光头头套供应商充足。FBA按小信封(80g/薄型)计费。主要竞品Grapelet售价£4.99(3.8★/205评价)为价格标杆。产品季节性极强，万圣节前需大量备货，建议7-8月开始FBA入仓。竞品常见差评为太薄、易撕裂、透光，建议采购加厚款或强调厚度优势。</p>
-    </div>
-  <div class="card"><h2>📅 全年需求日历</h2><div class="calendar-grid"><div class="cal-month"><div class="month-name">1月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">2月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">3月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">4月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">5月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">6月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">7月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">8月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">9月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">10月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">11月</div><div class="demand"></div></div><div class="cal-month"><div class="month-name">12月</div><div class="demand"></div></div></div></div>
-  
-    <div class="card">
-      <h2>📦 补货建议</h2>
-      <div class="restock-box">
-        <div class="title">💡 建议</div>
-        <p>建议7月初开始备货，首批发300-400个至FBA仓库。8月追加第二批。万圣节前(9月中)确认库存充足。淡季(12-6月)维持低库存50-100个即可。注意竞品Grapelet以低价£4.99竞争，建议在listing中突出&#x27;加厚&#x27;卖点差异化。广告预算集中在9-10月投放。</p>
-      </div>
-      <table style="margin-top:12px">
-        <tr><td style="width:140px;font-weight:600">首发备货量</td><td>350 件</td></tr>
-        <tr><td style="font-weight:600">运输方式</td><td>空运专线（7-15天到仓），万圣节备货时间紧迫不建议海运。常规补货可用海运（30-45天）降低成本。</td></tr>
       </table>
     </div>
   <p style="text-align:center;color:var(--sub);font-size:12px;margin-top:24px;">Hermes Agent · 分析日期 2026-06-15 18:00</p>
