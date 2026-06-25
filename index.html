@@ -52,9 +52,13 @@ a:hover { text-decoration: underline; }
 .insight-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; }
 .insight-box h2 { color: white; margin: 0 0 12px; }
 .insight-box p { font-size: 16px; line-height: 1.8; }
-.filter-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
-.filter-bar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
+.filter-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+.filter-bar select { display: none; }
 .filter-bar input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; width: 200px; }
+.store-tabs { display: flex; gap: 6px; }
+.store-tab { padding: 6px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; background: white; color: var(--sub); transition: all 0.2s; user-select: none; }
+.store-tab:hover { border-color: var(--accent); color: var(--accent); }
+.store-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
 .meta-info { color: var(--sub); font-size: 13px; margin-bottom: 20px; }
 .inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
 .inventory-item { background: #f9f9fb; border-radius: 10px; padding: 12px; text-align: center; }
@@ -84,15 +88,21 @@ a:hover { text-decoration: underline; }
 .filter-bar .result-count { font-size: 13px; color: var(--sub); }
 </style>
 <script>
+let activeStore = 'all';
+function filterByStore(store, el) {
+  activeStore = store;
+  document.querySelectorAll('.store-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  filterTable();
+}
 function filterTable() {
-  const store = document.getElementById('storeFilter').value;
   const search = document.getElementById('searchInput').value.toLowerCase();
   const rows = document.querySelectorAll('#productTable tbody tr');
   let count = 0;
   rows.forEach(row => {
     const rowStore = row.dataset.store;
     const text = row.textContent.toLowerCase();
-    const matchStore = store === 'all' || rowStore === store;
+    const matchStore = activeStore === 'all' || rowStore === activeStore;
     const matchSearch = !search || text.includes(search);
     row.style.display = (matchStore && matchSearch) ? '' : 'none';
     if (matchStore && matchSearch) count++;
@@ -103,9 +113,9 @@ function filterTable() {
 </head><body>
 <div class="container">
   <h1>📦 产品运营分析</h1>
-  <div class="meta-info">分析日期: 2026-06-24 23:23 · 数据来源: 领星ERP + Amazon UK</div>
+  <div class="meta-info">分析日期: 2026-06-25 09:23 · 数据来源: 领星ERP + Amazon UK</div>
   <div class="filter-bar">
-    <select id="storeFilter" onchange="filterTable()"><option value="all">全部店铺</option><option value="007">007</option><option value="322">322</option></select>
+    <div class="store-tabs"><span class="store-tab active" onclick="filterByStore('all',this)">全部</span><span class="store-tab" onclick="filterByStore('007',this)">007店</span><span class="store-tab" onclick="filterByStore('322',this)">322店</span></div>
     <input id="searchInput" type="text" placeholder="搜索ASIN/品名..." oninput="filterTable()">
     <span id="resultCount" class="result-count">44 个产品</span>
   </div>
@@ -378,8 +388,8 @@ function filterTable() {
           <td>21</td>
           <td>007</td>
           <td><a href="B0GLGT9TQT.html">B0GLGT9TQT</a></td>
-          <td><a href="B0GLGT9TQT.html">ALLGAYER 3 Pcs Pirate Accessories Set, Pirate Captain H</a></td>
-          <td>£6.58</td>
+          <td><a href="B0GLGT9TQT.html">LY海盗装饰-帽子1+布钩1+骷髅头眼罩1</a></td>
+          <td>£7.99</td>
           <td><span class="stars">★★★★★</span> 5.0 (3)</td>
           <td>#45,000</td>
           <td><strong>86</strong></td>
@@ -391,8 +401,8 @@ function filterTable() {
           <td>22</td>
           <td>007</td>
           <td><a href="B0GLH8KJPS.html">B0GLH8KJPS</a></td>
-          <td><a href="B0GLH8KJPS.html">Kpop Heart Necklace 3PCS, Love Heart Pendant Chain Neck</a></td>
-          <td>£6.72</td>
+          <td><a href="B0GLH8KJPS.html">LY-Kpop桃心项链-3件</a></td>
+          <td>£7.99</td>
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#99,181</td>
           <td><strong>69.0</strong></td>
@@ -417,8 +427,8 @@ function filterTable() {
           <td>24</td>
           <td>007</td>
           <td><a href="B0F6SZN7S2.html">B0F6SZN7S2</a></td>
-          <td><a href="B0F6SZN7S2.html">55 Yards / 50 Meters Rainbow Grosgrain Ribbons, Pride C</a></td>
-          <td>£5.82</td>
+          <td><a href="B0F6SZN7S2.html">YH条纹彩色丝带-彩色-款式八-1件</a></td>
+          <td>£6.99</td>
           <td><span class="stars">★★★★½</span> 4.7 (4)</td>
           <td>#76,852</td>
           <td><strong>55.0</strong></td>
@@ -430,7 +440,7 @@ function filterTable() {
           <td>25</td>
           <td>007</td>
           <td><a href="B0F6T87KMD.html">B0F6T87KMD</a></td>
-          <td><a href="B0F6T87KMD.html">Printed Napkins, Colourful Pattern Napkins C166, 20 Pac</a></td>
+          <td><a href="B0F6T87KMD.html">YH彩色印花餐巾纸-C166款-20张 （1包）</a></td>
           <td>£5.49</td>
           <td><span class="stars">★★★★½</span> 4.8 (6.0)</td>
           <td>#185,446</td>
@@ -443,7 +453,7 @@ function filterTable() {
           <td>26</td>
           <td>007</td>
           <td><a href="B0GKTWHKHQ.html">B0GKTWHKHQ</a></td>
-          <td><a href="B0GKTWHKHQ.html">4 Pcs Sunglasses Womens, Oval Sunglasses Retro Cat Eye </a></td>
+          <td><a href="B0GKTWHKHQ.html">LY椭圆小框太阳镜-黑全灰+茶框茶片+豹纹框茶片+豆花框双茶片4件</a></td>
           <td>£7.99</td>
           <td><span class="stars">★★★★☆</span> 4.2 (3.0)</td>
           <td>#108,151</td>
@@ -456,7 +466,7 @@ function filterTable() {
           <td>27</td>
           <td>007</td>
           <td><a href="B0GLGZWMNN.html">B0GLGZWMNN</a></td>
-          <td><a href="B0GLGZWMNN.html">2Pcs Bamboo Folding Fan White, Solid Color Hand Fan Pap</a></td>
+          <td><a href="B0GLGZWMNN.html">LY纯色折扇竹扇-白色-2件</a></td>
           <td>£5.99</td>
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#73,233</td>
@@ -495,7 +505,7 @@ function filterTable() {
           <td>30</td>
           <td>007</td>
           <td><a href="B0GLH5B5R5.html">B0GLH5B5R5</a></td>
-          <td><a href="B0GLH5B5R5.html">Plastic Spoons 10 Pcs, Dual-Use Reusable Colorful Teasp</a></td>
+          <td><a href="B0GLH5B5R5.html">LY两用塑料勺-紫2+绿2+蓝2+橙2+深粉2</a></td>
           <td>£7.99</td>
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#271,922</td>
@@ -508,7 +518,7 @@ function filterTable() {
           <td>31</td>
           <td>007</td>
           <td><a href="B0GKV8N3CC.html">B0GKV8N3CC</a></td>
-          <td><a href="B0GKV8N3CC.html">Dachshund Headband 4pcs Set + 1 Pair Fingerless Gloves,</a></td>
+          <td><a href="B0GKV8N3CC.html">LY腊肠狗发箍四件套+露指手套一双</a></td>
           <td>£7.99</td>
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#33,109</td>
@@ -521,7 +531,7 @@ function filterTable() {
           <td>32</td>
           <td>007</td>
           <td><a href="B0GLH296QX.html">B0GLH296QX</a></td>
-          <td><a href="B0GLH296QX.html">2PCS Espresso Backflush Cleaning Disc 54mm, Silicone Co</a></td>
+          <td><a href="B0GLH296QX.html">LY咖啡机硅胶清洁垫片-灰色54mm-2件</a></td>
           <td>£5.49</td>
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#85,735</td>
@@ -547,7 +557,7 @@ function filterTable() {
           <td>34</td>
           <td>007</td>
           <td><a href="B0GKTZP68Q.html">B0GKTZP68Q</a></td>
-          <td><a href="B0GKTZP68Q.html">Finger Football Game - 2 Goals, 1 Ball, 2 White &amp; 2 Ora</a></td>
+          <td><a href="B0GKTZP68Q.html">LY指尖足球-2网+1球+2白脚+2橙脚</a></td>
           <td>£7.99</td>
           <td><span class="stars">☆☆☆☆☆</span> 0 (0)</td>
           <td>#14,226</td>
@@ -560,7 +570,7 @@ function filterTable() {
           <td>35</td>
           <td>007</td>
           <td><a href="B0F7GFGRTB.html">B0F7GFGRTB</a></td>
-          <td><a href="B0F7GFGRTB.html">Sealing Stickers, Wax Seal Stickers 10Pcs Self-Adhesive</a></td>
+          <td><a href="B0F7GFGRTB.html">YH封口贴纸-10张</a></td>
           <td>£3.99</td>
           <td><span class="stars">★★★★½</span> 4.8 (4.0)</td>
           <td>#30,072</td>
@@ -586,7 +596,7 @@ function filterTable() {
           <td>37</td>
           <td>007</td>
           <td><a href="B0FTF9JNBJ.html">B0FTF9JNBJ</a></td>
-          <td><a href="B0FTF9JNBJ.html">光头和尚头套 / Bald Cap Monk Costume Headpiece</a></td>
+          <td><a href="B0FTF9JNBJ.html">LY光头和尚头套-1件</a></td>
           <td>£5.99</td>
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#58,483</td>
@@ -599,8 +609,8 @@ function filterTable() {
           <td>38</td>
           <td>007</td>
           <td><a href="B0GKV5YM6C.html">B0GKV5YM6C</a></td>
-          <td><a href="B0GKV5YM6C.html">Leopard Print Temporary Tattoos, 4 Sheets (Face 2 + Bod</a></td>
-          <td>£5.00</td>
+          <td><a href="B0GKV5YM6C.html">LY豹纹纹身贴-面部2张+身体2张</a></td>
+          <td>£5.99</td>
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#41,391</td>
           <td><strong>33.0</strong></td>
@@ -612,7 +622,7 @@ function filterTable() {
           <td>39</td>
           <td>007</td>
           <td><a href="B0GLY4GTV6.html">B0GLY4GTV6</a></td>
-          <td><a href="B0GLY4GTV6.html">Self-Adhesive Cable Clips, Wire Management Clips, Cord </a></td>
+          <td><a href="B0GLY4GTV6.html">LY固线座卡扣-黑色小号-50件</a></td>
           <td>£5.29</td>
           <td><span class="stars">★★★★½</span> 4.5 (2.0)</td>
           <td>#52,528</td>
@@ -625,7 +635,7 @@ function filterTable() {
           <td>40</td>
           <td>007</td>
           <td><a href="B0GKV1BYW5.html">B0GKV1BYW5</a></td>
-          <td><a href="B0GKV1BYW5.html">Football Cake Topper Decoration Plastic Football + Plas</a></td>
+          <td><a href="B0GKV1BYW5.html">LY足球蛋糕装饰-塑料足球1+塑料奖杯1</a></td>
           <td>£7.49</td>
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#110,406</td>
@@ -638,7 +648,7 @@ function filterTable() {
           <td>41</td>
           <td>007</td>
           <td><a href="B0F9D6RNDH.html">B0F9D6RNDH</a></td>
-          <td><a href="B0F9D6RNDH.html">5-in-1 Water Test Strips for Pool Hot Tub Spa - pH Chlo</a></td>
+          <td><a href="B0F9D6RNDH.html">YH5合1测试纸-50条-2瓶</a></td>
           <td>£7.99</td>
           <td><span class="stars">★★★★☆</span> 4.0 (2.0)</td>
           <td>#35,591</td>
@@ -651,8 +661,8 @@ function filterTable() {
           <td>42</td>
           <td>007</td>
           <td><a href="B0GLXKW95W.html">B0GLXKW95W</a></td>
-          <td><a href="B0GLXKW95W.html">2 Pieces Pirate Hat Black Tricorn Pirate Captain Costum</a></td>
-          <td>£4.99</td>
+          <td><a href="B0GLXKW95W.html">LY海盗帽-黑色-2件</a></td>
+          <td>£5.99</td>
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#73,528</td>
           <td><strong>30.0</strong></td>
@@ -664,7 +674,7 @@ function filterTable() {
           <td>43</td>
           <td>007</td>
           <td><a href="B0F6T5YYZQ.html">B0F6T5YYZQ</a></td>
-          <td><a href="B0F6T5YYZQ.html">Rainbow Bandana 2 Pack - Colorful Square Scarf Headband</a></td>
+          <td><a href="B0F6T5YYZQ.html">YH彩虹方巾-款式1-2件</a></td>
           <td>£4.99</td>
           <td><span class="stars">★★★★½</span> 4.8 (5.0)</td>
           <td>#50,642</td>
@@ -677,7 +687,7 @@ function filterTable() {
           <td>44</td>
           <td>007</td>
           <td><a href="B0GLHBMP55.html">B0GLHBMP55</a></td>
-          <td><a href="B0GLHBMP55.html">Kpop Crystal Bracelet Set, 9 Pieces Stretch Beaded Frie</a></td>
+          <td><a href="B0GLHBMP55.html">LY-Kpop水晶手串-9件</a></td>
           <td>£7.99</td>
           <td><span class="stars">★★★★★</span> 5.0 (1.0)</td>
           <td>#46,823</td>

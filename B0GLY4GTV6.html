@@ -52,9 +52,13 @@ a:hover { text-decoration: underline; }
 .insight-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; }
 .insight-box h2 { color: white; margin: 0 0 12px; }
 .insight-box p { font-size: 16px; line-height: 1.8; }
-.filter-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
-.filter-bar select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: white; }
+.filter-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+.filter-bar select { display: none; }
 .filter-bar input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; width: 200px; }
+.store-tabs { display: flex; gap: 6px; }
+.store-tab { padding: 6px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; background: white; color: var(--sub); transition: all 0.2s; user-select: none; }
+.store-tab:hover { border-color: var(--accent); color: var(--accent); }
+.store-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
 .meta-info { color: var(--sub); font-size: 13px; margin-bottom: 20px; }
 .inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 16px; }
 .inventory-item { background: #f9f9fb; border-radius: 10px; padding: 12px; text-align: center; }
